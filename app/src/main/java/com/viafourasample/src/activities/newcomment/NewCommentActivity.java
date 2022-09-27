@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.viafoura.viafourasdk.R;
+import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasdk.src.fragments.newcomment.NewCommentFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
@@ -78,7 +80,8 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
 
     @Override
     public void startLogin() {
-
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
