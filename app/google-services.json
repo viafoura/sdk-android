@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "560323927309",
+    "project_id": "mobile-sdk-demo-f79f5",
+    "storage_bucket": "mobile-sdk-demo-f79f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560323927309:android:ffd40be82df0aaa9cb6444",
+        "android_client_info": {
+          "package_name": "com.viafoura.sampleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560323927309-8mcqn5ni9rcse96fjliljnf54hqqph6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmBzYJaAIWHQHzMwt-0M91DjcmZmzGcME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560323927309-8mcqn5ni9rcse96fjliljnf54hqqph6u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "560323927309-i1o31udn7pakonjiv3uu4kj9nb4nbu23.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.viafoura.sampleapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
