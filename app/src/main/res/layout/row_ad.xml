@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="40dp"
+        android:id="@+id/row_ad_indicator"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_ad_indicator"
+        android:layout_marginRight="20dp"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/row_ad_indicator_text"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:text="AD"
+            android:textSize="13sp"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/row_ad_sponsored"
+        android:layout_marginRight="20dp"
+        android:textColor="#46C236"
+        android:text="Sponsored"
+        android:fontFamily="@font/inter_medium"
+        android:layout_toRightOf="@+id/row_ad_indicator"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/row_ad_title"
+        android:layout_width="match_parent"
+        android:textColor="#000"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:layout_below="@+id/row_ad_sponsored"
+        android:text="Autos Nuevos | Enlaces Publicitarios"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="20dp"
+        android:layout_toRightOf="@+id/row_ad_indicator">
+
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginRight="20dp"
+        android:id="@+id/row_ad_desc"
+        android:textColor="#9A9A9A"
+        android:fontFamily="@font/inter_medium"
+        android:layout_marginTop="3dp"
+        android:text="Ushuaia: Los autos sin vender de 2021 casi se regalan"
+        android:layout_toRightOf="@+id/row_ad_indicator"
+        android:layout_below="@+id/row_ad_title"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/row_ad_indicator"
+        android:id="@+id/row_ad_image"
+        android:layout_below="@+id/row_ad_desc"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="50dp">
+
+    </ImageView>
+
+</RelativeLayout>

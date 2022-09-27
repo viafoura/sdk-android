@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/background_ad_indicator.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/button_bg.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/icon_logo.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_article.xml" value="0.10688956433637285" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.287786865234375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.10688956433637285" />
+        <entry key="app/src/main/res/layout/activity_new_comment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_new_comment_2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_reply.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.15307971014492755" />
+        <entry key="app/src/main/res/layout/activity_test.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.11448834853090173" />
+        <entry key="app/src/main/res/layout/row_ad.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/row_article.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/menu_main.xml" value="0.2064814814814815" />
+        <entry key="app/src/main/res/menu/menu_main_toolbar.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/drawable/background_bottom_picker.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/drawable/background_bottom_picker_handle.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/drawable/background_content_removed.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/drawable/ic_launcher_background.xml" value="0.111" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_bell_badge.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_comment.xml" value="0.111" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_delete.xml" value="0.156" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_dislike.xml" value="0.111" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_dots.xml" value="0.111" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_editor_pick.xml" value="0.111" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_mute.xml" value="0.111" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_unmute.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/drawable/icon_viafoura.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/cview_all_comments.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/cview_button.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/cview_content_removed.xml" value="0.11448834853090173" />
+        <entry key="viafourasdk/src/main/res/layout/cview_custom_badge.xml" value="0.11398176291793313" />
+        <entry key="viafourasdk/src/main/res/layout/cview_empty_comments.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/cview_featured.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/cview_follow.xml" value="0.11398176291793313" />
+        <entry key="viafourasdk/src/main/res/layout/cview_mute.xml" value="0.11398176291793313" />
+        <entry key="viafourasdk/src/main/res/layout/cview_new_comments.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/cview_powered_by_viafoura.xml" value="0.327343893775824" />
+        <entry key="viafourasdk/src/main/res/layout/cview_separator.xml" value="0.11398176291793313" />
+        <entry key="viafourasdk/src/main/res/layout/cview_user_avatar.xml" value="0.11448834853090173" />
+        <entry key="viafourasdk/src/main/res/layout/dialog_bottom_picker.xml" value="0.26569824218750004" />
+        <entry key="viafourasdk/src/main/res/layout/fragment_bottom_picker.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/fragment_livechat.xml" value="0.12817028985507245" />
+        <entry key="viafourasdk/src/main/res/layout/fragment_new_comment.xml" value="0.12745098039215685" />
+        <entry key="viafourasdk/src/main/res/layout/fragment_preview_comments.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/row_ad.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/row_bottom_picker.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/row_chat.xml" value="0.14879864678866625" />
+        <entry key="viafourasdk/src/main/res/layout/row_comment.xml" value="0.365" />
+        <entry key="viafourasdk/src/main/res/layout/row_notification.xml" value="0.1" />
+        <entry key="viafourasdk/src/main/res/layout/row_user.xml" value="0.12264150943396226" />
+        <entry key="viafourasdk/src/main/res/layout/row_usercomment.xml" value="0.1362551193469201" />
+        <entry key="viafourasdk/src/main/res/menu/menu_comment.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
