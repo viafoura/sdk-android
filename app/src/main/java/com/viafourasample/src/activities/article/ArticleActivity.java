@@ -23,6 +23,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -60,6 +61,7 @@ import java.net.URL;
 public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface {
 
     private ArticleViewModel articleViewModel;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +85,8 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         ((ProgressBar) findViewById(R.id.article_loading)).getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorPrimary),
                 android.graphics.PorterDuff.Mode.SRC_IN);
+
+        scrollView = findViewById(R.id.article_scroll);
 
         WebView webView = findViewById(R.id.article_webview);
         webView.loadUrl(articleViewModel.getStory().getLink());
@@ -108,13 +112,14 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight), Color.WHITE);
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
-        PreviewCommentsFragment previewCommentsFragment = PreviewCommentsFragment.newInstance(articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings);
-        previewCommentsFragment.setActionCallback(this);
-        previewCommentsFragment.setAdInterface(this);
-        previewCommentsFragment.setCustomUICallback(this);
+        PreviewCommentsFragment previewCommentsFragment = PreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_comments_container, previewCommentsFragment);
         ft.commitAllowingStateLoss();
+
+        previewCommentsFragment.setActionCallback(this);
+        previewCommentsFragment.setAdInterface(this);
+        previewCommentsFragment.setCustomUICallback(this);
     }
 
     @Override

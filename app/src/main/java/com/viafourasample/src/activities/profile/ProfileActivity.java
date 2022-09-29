@@ -59,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
                 presentationType = VFProfilePresentationType.feed;
             }
         }
-        ProfileFragment profileFragment = ProfileFragment.newInstance(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_USER_UUID)), presentationType, this, vfSettings);
+        ProfileFragment profileFragment = ProfileFragment.newInstance(getApplication(), UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_USER_UUID)), presentationType, this, vfSettings);
         profileFragment.setActionCallback(this);
         profileFragment.setCustomUICallback(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

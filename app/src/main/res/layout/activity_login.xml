@@ -110,12 +110,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:id="@+id/login_google"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_centerVertical="true"
+                android:id="@+id/login_google"
                 android:layout_centerHorizontal="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
@@ -129,13 +129,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:id="@+id/login_facebook"
             android:layout_weight="1"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_centerVertical="true"
+                android:id="@+id/login_facebook"
                 android:layout_centerHorizontal="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
@@ -150,13 +150,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:id="@+id/login_linkedin"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:id="@+id/login_linkedin"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
@@ -170,13 +170,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:id="@+id/login_twitter"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:id="@+id/login_twitter"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
