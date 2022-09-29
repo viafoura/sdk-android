@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ViafouraSDK</string>
+    <string name="app_name">Viafoura SDK Sample App</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
 </resources>

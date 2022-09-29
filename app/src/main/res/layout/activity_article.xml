@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/article_scroll"
     android:layout_height="wrap_content"
     tools:context="com.viafourasample.src.activities.article.ArticleActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="blocksDescendants"
         android:layout_height="wrap_content">
 
         <RelativeLayout
@@ -44,4 +47,4 @@
 
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+</ScrollView>
