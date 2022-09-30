@@ -30,5 +30,6 @@ public class MyApplication extends Application {
         init.setSiteName("viafoura-login");
 
         ViafouraSDK.initialize(getApplicationContext(), "00000000-0000-4000-8000-c8cddfd7b365", "viafoura-mobile-demo.vercel.app");
+        ViafouraSDK.isLoggingEnabled = true;
     }
 }
