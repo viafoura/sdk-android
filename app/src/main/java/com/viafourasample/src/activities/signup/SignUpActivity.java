@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.viafoura.viafourasdk.R;
+import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginViewModel;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 

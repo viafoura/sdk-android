@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 
-import com.viafoura.viafourasdk.R;
+import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.main.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
