@@ -35,7 +35,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
-import com.viafoura.viafourasdk.R;
+import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.newcomment.NewCommentActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;

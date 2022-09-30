@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.loginradius.androidsdk.helper.LoginRadiusSDK;
 import com.loginradius.androidsdk.resource.SocialProviderConstant;
-import com.viafoura.viafourasdk.R;
+import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.signup.SignUpActivity;
 import com.viafourasample.src.utils.AndroidUtils;
 import com.viafourasdk.src.model.local.VFDefaultColors;

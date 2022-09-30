@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.viafoura.viafourasdk.R;
+import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.article.ArticleActivity;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.Story;
