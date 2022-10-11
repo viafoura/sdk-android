@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.Session2Command;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -38,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Log-in");
+
+
 
         ((ProgressBar) findViewById(R.id.login_loading)).getIndeterminateDrawable().setColorFilter(
                 VFDefaultColors.getInstance().colorPrimaryDefault,
