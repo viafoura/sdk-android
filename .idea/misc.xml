@@ -3,6 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.18165467625899281" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_disable.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_disabled.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_editor_pick.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_enable.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_featured.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_flags.xml" value="0.5285964965820313" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_follow.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_pinned.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_spam.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_unflag.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/cview_unspam.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/fragment_profile.xml" value="0.15579710144927536" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/layout/row_comment.xml" value="0.1" />
+        <entry key="../sdk-android/viafourasdk/src/main/res/menu/menu_comment.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/background_ad_indicator.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/button_bg.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/icon_logo.xml" value="0.1" />
