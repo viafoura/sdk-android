@@ -11,8 +11,8 @@ android {
         applicationId "com.viafoura.sampleapp"
         minSdk 21
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -22,7 +22,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+
+        }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,6 +47,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:21.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-analytics'
-    implementation project(path: ':viafoura-sdk')
+    implementation 'com.viafoura:android:0.0.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 }

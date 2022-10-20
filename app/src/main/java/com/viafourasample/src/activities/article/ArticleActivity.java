@@ -51,6 +51,7 @@ import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
+import com.viafourasdk.src.model.local.VFDefaultColors;
 import com.viafourasdk.src.model.local.VFFonts;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.view.VFTextView;
