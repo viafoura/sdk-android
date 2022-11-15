@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
@@ -93,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
     }
 
     @Override
-    public void customizeView(VFCustomViewType viewType, View view) {
+    public void customizeView(VFCustomViewType customViewType, View view) {
 
     }
 }
