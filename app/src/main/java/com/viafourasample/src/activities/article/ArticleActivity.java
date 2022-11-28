@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
@@ -42,6 +43,8 @@ import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.Story;
 import com.viafourasdk.src.fragments.previewcomments.PreviewCommentsFragment;
+import com.viafourasdk.src.fragments.trending.CarrouselTrendingFragment;
+import com.viafourasdk.src.fragments.trending.VerticalTrendingFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFAdInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
@@ -54,6 +57,8 @@ import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 import com.viafourasdk.src.model.local.VFFonts;
 import com.viafourasdk.src.model.local.VFSettings;
+import com.viafourasdk.src.model.local.VFTrendingSortType;
+import com.viafourasdk.src.model.local.VFTrendingViewType;
 import com.viafourasdk.src.view.VFTextView;
 
 import java.net.MalformedURLException;
@@ -63,6 +68,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
 
     private ArticleViewModel articleViewModel;
     private ScrollView scrollView;
+    private VFSettings vfSettings;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +84,9 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                         getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK),
                         getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID))
         );
+
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight), Color.WHITE);
+        vfSettings = new VFSettings(colors);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -102,6 +111,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                 findViewById(R.id.article_loading).setVisibility(View.GONE);
                 try {
                     addCommentsFragment();
+                    addTrendingFragment();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -109,9 +119,14 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         });
     }
 
+    private void addTrendingFragment(){
+        Fragment trendingFragment = VerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.article_trending_container, trendingFragment);
+        ft.commitAllowingStateLoss();
+    }
+
     private void addCommentsFragment() throws MalformedURLException {
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight), Color.WHITE);
-        VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
         PreviewCommentsFragment previewCommentsFragment = PreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

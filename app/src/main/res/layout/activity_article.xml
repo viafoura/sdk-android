@@ -41,6 +41,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:id="@+id/article_trending_container"
+            android:layout_height="wrap_content">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:id="@+id/article_comments_container"
             android:layout_height="wrap_content">
 
