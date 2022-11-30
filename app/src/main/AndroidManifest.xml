@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ViafouraSDK">
         <activity
+            android:name="com.viafourasample.src.activities.livechat.LiveChatActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.viafourasample.src.activities.settings.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name="com.viafourasample.src.activities.profile.ProfileActivity"
             android:exported="false" />
         <activity
@@ -41,8 +47,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
-
+            android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
 
 </manifest>
