@@ -12,8 +12,12 @@ import android.view.MenuItem;
 import com.viafoura.sampleapp.R;
 import com.viafourasdk.src.fragments.livechat.LiveChatFragment;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
+import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFSettings;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class LiveChatActivity extends AppCompatActivity implements VFLoginInterface {
 
@@ -24,7 +28,13 @@ public class LiveChatActivity extends AppCompatActivity implements VFLoginInterf
 
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight), Color.WHITE);
         VFSettings vfSettings = new VFSettings(colors);
-        LiveChatFragment liveChatFragment = LiveChatFragment.newInstance("Container", this, vfSettings);
+        VFArticleMetadata metadata = null;
+        try {
+            metadata = new VFArticleMetadata(new URL("https://test.com"), "", "", new URL("https://test.com"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        LiveChatFragment liveChatFragment = LiveChatFragment.newInstance(getApplication(), "Container", metadata, this, vfSettings);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.live_chat_container, liveChatFragment);
         ft.commit();
