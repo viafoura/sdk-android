@@ -123,7 +123,8 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     private void addTrendingFragment(){
-        Fragment trendingFragment = VerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
+        VerticalTrendingFragment trendingFragment = VerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
+        trendingFragment.setAdInterface(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_trending_container, trendingFragment);
         ft.commitAllowingStateLoss();
