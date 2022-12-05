@@ -57,6 +57,7 @@ import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 import com.viafourasdk.src.model.local.VFFonts;
+import com.viafourasdk.src.model.local.VFNotificationPresentationAction;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFSortType;
 import com.viafourasdk.src.model.local.VFTrendingSortType;
@@ -176,6 +177,12 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                 intent.putExtra(IntentKeys.INTENT_USER_PRESENTATION_TYPE, action.getOpenProfileAction().presentationType.toString());
             }
             startActivity(intent);
+        } else if(actionType == VFActionType.notificationPressed){
+            if(action.getNotificationPresentationAction().notificationPresentationType == VFNotificationPresentationAction.VFNotificationPresentationType.profile){
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                intent.putExtra(IntentKeys.INTENT_USER_UUID, action.getNotificationPresentationAction().userUUID.toString());
+                startActivity(intent);
+            }
         }
     }
 
