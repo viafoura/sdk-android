@@ -42,6 +42,7 @@ import com.viafourasample.src.activities.newcomment.NewCommentActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.Story;
+import com.viafourasdk.src.fragments.base.VFFragment;
 import com.viafourasdk.src.fragments.previewcomments.PreviewCommentsFragment;
 import com.viafourasdk.src.fragments.trending.CarrouselTrendingFragment;
 import com.viafourasdk.src.fragments.trending.VerticalTrendingFragment;
@@ -57,6 +58,7 @@ import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 import com.viafourasdk.src.model.local.VFFonts;
 import com.viafourasdk.src.model.local.VFSettings;
+import com.viafourasdk.src.model.local.VFSortType;
 import com.viafourasdk.src.model.local.VFTrendingSortType;
 import com.viafourasdk.src.model.local.VFTrendingViewType;
 import com.viafourasdk.src.view.VFTextView;
@@ -128,7 +130,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
 
     private void addCommentsFragment() throws MalformedURLException {
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
-        PreviewCommentsFragment previewCommentsFragment = PreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings);
+        PreviewCommentsFragment previewCommentsFragment = PreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.mostLiked);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_comments_container, previewCommentsFragment);
         ft.commitAllowingStateLoss();
@@ -186,12 +188,17 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     @Override
-    public int getAdInterval() {
+    public int getFirstAdPosition(VFFragment fragment) {
+        return 5;
+    }
+
+    @Override
+    public int getAdInterval(VFFragment fragment) {
         return 3;
     }
 
     @Override
-    public ViewGroup generateAd(int adPosition) {
+    public ViewGroup generateAd(VFFragment fragment, int adPosition) {
         if(adPosition % 2 == 0){
             RelativeLayout adContainer = new RelativeLayout(this);
             AdView adView = new AdView(this);
