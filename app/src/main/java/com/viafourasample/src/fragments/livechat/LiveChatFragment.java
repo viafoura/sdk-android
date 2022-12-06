@@ -16,14 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.viafoura.sampleapp.R;
-import com.viafourasample.src.activities.article.ArticleActivity;
 import com.viafourasample.src.activities.livechat.LiveChatActivity;
-import com.viafourasample.src.fragments.home.HomeFragmentViewModel;
-import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.LiveChat;
-import com.viafourasample.src.model.Story;
 
 public class LiveChatFragment extends Fragment {
 

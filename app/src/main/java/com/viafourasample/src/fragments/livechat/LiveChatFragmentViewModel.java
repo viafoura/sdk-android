@@ -2,7 +2,6 @@ package com.viafourasample.src.fragments.livechat;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.model.LiveChat;
-import com.viafourasample.src.model.Story;
 
 import java.util.ArrayList;
 import java.util.List;

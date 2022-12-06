@@ -2,14 +2,9 @@ package com.viafourasample.src;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.loginradius.androidsdk.helper.LoginRadiusSDK;
 import com.viafourasdk.src.ViafouraSDK;
-import com.viafourasdk.src.services.auth.SessionManager;
 
 public class MyApplication extends Application {
     private static MyApplication singleton;

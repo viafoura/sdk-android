@@ -1,29 +1,22 @@
 package com.viafourasample.src.activities.settings;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.viafoura.sampleapp.R;
-import com.viafourasample.src.activities.livechat.LiveChatActivity;
-import com.viafourasample.src.activities.login.LoginActivity;
-import com.viafourasample.src.fragments.livechat.LiveChatFragment;
-import com.viafourasample.src.model.LiveChat;
 import com.viafourasample.src.model.Setting;
-import com.viafourasdk.src.services.auth.AuthService;
 
 public class SettingsActivity extends AppCompatActivity {
 

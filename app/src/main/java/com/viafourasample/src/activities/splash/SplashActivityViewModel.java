@@ -2,8 +2,6 @@ package com.viafourasample.src.activities.splash;
 
 import android.os.CountDownTimer;
 
-import com.viafourasdk.src.model.network.comments.createComment.CreateCommentResponse;
-
 public class SplashActivityViewModel {
     private SplashActivityCallback splashActivityCallback;
 

@@ -1,16 +1,16 @@
 package com.viafourasample.src.activities.livechat;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.MenuItem;
-
 import com.viafoura.sampleapp.R;
-import com.viafourasdk.src.fragments.livechat.LiveChatFragment;
+import com.viafourasdk.src.fragments.livechat.VFLiveChatFragment;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
@@ -34,7 +34,7 @@ public class LiveChatActivity extends AppCompatActivity implements VFLoginInterf
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        LiveChatFragment liveChatFragment = LiveChatFragment.newInstance(getApplication(), "Container", metadata, this, vfSettings);
+        VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getApplication(), "Container", metadata, this, vfSettings);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.live_chat_container, liveChatFragment);
         ft.commit();
