@@ -25,7 +25,6 @@ import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFNewCommentAction;
 import com.viafourasdk.src.model.local.VFSettings;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;

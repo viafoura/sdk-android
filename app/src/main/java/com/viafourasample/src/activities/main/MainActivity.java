@@ -111,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     private void getAuthState(){
         viewModel.getAuthState(new AuthService.UserLoginStatusCallback() {
             @Override

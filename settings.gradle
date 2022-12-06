@@ -8,5 +8,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ViafouraSDK"
 include ':app'
-include ':viafoura-sdk'
-project(':viafoura-sdk').projectDir = new File('/Users/martindesimone/Desktop/sdk-android/module')

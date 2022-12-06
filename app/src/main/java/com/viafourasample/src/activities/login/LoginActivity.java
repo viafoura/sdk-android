@@ -10,11 +10,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.loginradius.androidsdk.helper.LoginRadiusSDK;
 import com.loginradius.androidsdk.resource.SocialProviderConstant;

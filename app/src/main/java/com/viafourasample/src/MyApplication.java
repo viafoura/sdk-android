@@ -1,7 +1,6 @@
 package com.viafourasample.src;
 
 import android.app.Application;
-
 import com.google.android.gms.ads.MobileAds;
 import com.loginradius.androidsdk.helper.LoginRadiusSDK;
 import com.viafourasdk.src.ViafouraSDK;

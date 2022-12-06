@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.main.MainActivity;
 

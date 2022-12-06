@@ -5,12 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.model.IntentKeys;
