@@ -1,4 +1,5 @@
 # Viafoura Android SDK
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.viafoura/android/badge.svg)
 
 This library allows you to integrate Viafoura tools into a native Android app.
 

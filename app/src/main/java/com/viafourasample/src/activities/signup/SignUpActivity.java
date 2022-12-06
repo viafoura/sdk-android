@@ -1,20 +1,18 @@
 package com.viafourasample.src.activities.signup;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.viafoura.sampleapp.R;
-import com.viafourasample.src.activities.login.LoginViewModel;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 
 public class SignUpActivity extends AppCompatActivity {

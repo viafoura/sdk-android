@@ -1,22 +1,20 @@
 package com.viafourasample.src.activities.newcomment;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.model.IntentKeys;
-import com.viafourasdk.src.fragments.newcomment.NewCommentFragment;
+import com.viafourasdk.src.fragments.newcomment.VFNewCommentFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
@@ -25,7 +23,6 @@ import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
-import com.viafourasdk.src.model.local.VFFonts;
 import com.viafourasdk.src.model.local.VFNewCommentAction;
 import com.viafourasdk.src.model.local.VFSettings;
 import java.net.MalformedURLException;
@@ -73,7 +70,7 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
             newCommentAction.content = UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_NEW_COMMENT_CONTENT));
         }
 
-        NewCommentFragment newCommentFragment = NewCommentFragment.newInstance(getApplication(), newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings);
+        VFNewCommentFragment newCommentFragment = VFNewCommentFragment.newInstance(getApplication(), newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings);
         newCommentFragment.setActionCallback(this);
         newCommentFragment.setCustomUICallback(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

@@ -1,23 +1,18 @@
 package com.viafourasample.src.activities.profile;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.model.IntentKeys;
-import com.viafourasdk.src.fragments.profile.ProfileFragment;
-import com.viafourasdk.src.fragments.profile.ProfileViewModel;
+import com.viafourasdk.src.fragments.profile.VFProfileFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
@@ -25,8 +20,6 @@ import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
-import com.viafourasdk.src.model.local.VFFonts;
-import com.viafourasdk.src.model.local.VFOpenProfileAction;
 import com.viafourasdk.src.model.local.VFProfilePresentationType;
 import com.viafourasdk.src.model.local.VFSettings;
 
@@ -62,7 +55,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
                 presentationType = VFProfilePresentationType.feed;
             }
         }
-        ProfileFragment profileFragment = ProfileFragment.newInstance(getApplication(), UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_USER_UUID)), presentationType, this, vfSettings);
+        VFProfileFragment profileFragment = VFProfileFragment.newInstance(getApplication(), UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_USER_UUID)), presentationType, this, vfSettings);
         profileFragment.setActionCallback(this);
         profileFragment.setCustomUICallback(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -93,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
     }
 
     @Override
-    public void customizeView(VFCustomViewType viewType, View view) {
+    public void customizeView(VFCustomViewType customViewType, View view) {
 
     }
 }
