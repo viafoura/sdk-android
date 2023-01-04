@@ -2,7 +2,9 @@ package com.viafourasample.src.activities.login;
 
 import com.viafourasdk.src.ViafouraSDK;
 import com.viafourasdk.src.model.network.authentication.login.LoginResponse;
+import com.viafourasdk.src.model.network.authentication.loginradius.LoginRadiusLoginResponse;
 import com.viafourasdk.src.model.network.authentication.socialLogin.SocialLoginResponse;
+import com.viafourasdk.src.model.network.error.NetworkError;
 import com.viafourasdk.src.services.auth.AuthService;
 
 public class LoginViewModel {
@@ -16,7 +18,7 @@ public class LoginViewModel {
             }
 
             @Override
-            public void onError(String err) {
+            public void onError(NetworkError err) {
                 callback.onError();
             }
         });
@@ -35,7 +37,7 @@ public class LoginViewModel {
             }
 
             @Override
-            public void onError(String err) {
+            public void onError(NetworkError err) {
                 callback.onError();
             }
         });
@@ -54,7 +56,7 @@ public class LoginViewModel {
             }
 
             @Override
-            public void onError(String err) {
+            public void onError(NetworkError err) {
                 socialLoginCallback.onError();
             }
         });

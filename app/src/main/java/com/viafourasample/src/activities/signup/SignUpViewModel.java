@@ -2,6 +2,7 @@ package com.viafourasample.src.activities.signup;
 
 import com.viafourasdk.src.ViafouraSDK;
 import com.viafourasdk.src.model.network.authentication.signup.SignUpResponse;
+import com.viafourasdk.src.model.network.error.NetworkError;
 import com.viafourasdk.src.services.auth.AuthService;
 
 public class SignUpViewModel {
@@ -15,7 +16,7 @@ public class SignUpViewModel {
             }
 
             @Override
-            public void onError(String err) {
+            public void onError(NetworkError err) {
                 callback.onError();
             }
         });
