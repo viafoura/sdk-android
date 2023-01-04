@@ -36,19 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Log-in");
 
-
-        viewModel.socialLogin("639c9626-972f-4b7e-96bf-bc8f0b1c020b", new LoginViewModel.SocialLoginCallback() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
-
         ((ProgressBar) findViewById(R.id.login_loading)).getIndeterminateDrawable().setColorFilter(
                 VFDefaultColors.getInstance().colorPrimaryDefault,
                 android.graphics.PorterDuff.Mode.SRC_IN);
