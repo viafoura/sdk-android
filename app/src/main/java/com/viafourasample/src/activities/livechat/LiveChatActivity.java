@@ -30,7 +30,7 @@ public class LiveChatActivity extends AppCompatActivity implements VFLoginInterf
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata metadata = null;
         try {
-            metadata = new VFArticleMetadata(new URL("https://test.com"), "", "", new URL("https://test.com"));
+            metadata = new VFArticleMetadata(new URL("https://viafoura-mobile-demo.vercel.app"), "", "", new URL("https://viafoura-mobile-demo.vercel.app"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
