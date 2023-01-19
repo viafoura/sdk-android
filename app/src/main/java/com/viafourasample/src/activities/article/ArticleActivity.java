@@ -43,9 +43,8 @@ import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.Story;
 import com.viafourasdk.src.fragments.base.VFFragment;
-import com.viafourasdk.src.fragments.previewcomments.PreviewCommentsFragment;
-import com.viafourasdk.src.fragments.trending.CarrouselTrendingFragment;
-import com.viafourasdk.src.fragments.trending.VerticalTrendingFragment;
+import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragment;
+import com.viafourasdk.src.fragments.trending.VFVerticalTrendingFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFAdInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
@@ -123,7 +122,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     private void addTrendingFragment(){
-        VerticalTrendingFragment trendingFragment = VerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
+        VFVerticalTrendingFragment trendingFragment = VFVerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
         trendingFragment.setAdInterface(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_trending_container, trendingFragment);
@@ -132,7 +131,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
 
     private void addCommentsFragment() throws MalformedURLException {
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
-        PreviewCommentsFragment previewCommentsFragment = PreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.mostLiked);
+        VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.mostLiked);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_comments_container, previewCommentsFragment);
         ft.commitAllowingStateLoss();
