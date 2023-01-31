@@ -48,6 +48,7 @@ import com.viafourasdk.src.fragments.trending.VFVerticalTrendingFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFAdInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
+import com.viafourasdk.src.interfaces.VFLayoutInterface;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
@@ -66,7 +67,7 @@ import com.viafourasdk.src.view.VFTextView;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface {
+public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface {
 
     private ArticleViewModel articleViewModel;
     private ScrollView scrollView;
@@ -136,6 +137,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         ft.replace(R.id.article_comments_container, previewCommentsFragment);
         ft.commitAllowingStateLoss();
 
+        previewCommentsFragment.setLayoutCallback(this);
         previewCommentsFragment.setActionCallback(this);
         previewCommentsFragment.setAdInterface(this);
         previewCommentsFragment.setCustomUICallback(this);
@@ -235,5 +237,10 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                     .into(adImage);
             return adLayout;
         }
+    }
+
+    @Override
+    public void containerHeightUpdated(VFFragment fragment, int height) {
+
     }
 }
