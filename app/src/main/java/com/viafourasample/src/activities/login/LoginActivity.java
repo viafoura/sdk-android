@@ -36,8 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Log-in");
 
-
-
         ((ProgressBar) findViewById(R.id.login_loading)).getIndeterminateDrawable().setColorFilter(
                 VFDefaultColors.getInstance().colorPrimaryDefault,
                 android.graphics.PorterDuff.Mode.SRC_IN);

@@ -43,12 +43,12 @@ import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.Story;
 import com.viafourasdk.src.fragments.base.VFFragment;
-import com.viafourasdk.src.fragments.previewcomments.PreviewCommentsFragment;
-import com.viafourasdk.src.fragments.trending.CarrouselTrendingFragment;
-import com.viafourasdk.src.fragments.trending.VerticalTrendingFragment;
+import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragment;
+import com.viafourasdk.src.fragments.trending.VFVerticalTrendingFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFAdInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
+import com.viafourasdk.src.interfaces.VFLayoutInterface;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
@@ -67,7 +67,7 @@ import com.viafourasdk.src.view.VFTextView;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface {
+public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface {
 
     private ArticleViewModel articleViewModel;
     private ScrollView scrollView;
@@ -123,7 +123,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     private void addTrendingFragment(){
-        VerticalTrendingFragment trendingFragment = VerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
+        VFVerticalTrendingFragment trendingFragment = VFVerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
         trendingFragment.setAdInterface(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_trending_container, trendingFragment);
@@ -132,11 +132,12 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
 
     private void addCommentsFragment() throws MalformedURLException {
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
-        PreviewCommentsFragment previewCommentsFragment = PreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.mostLiked);
+        VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.mostLiked);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_comments_container, previewCommentsFragment);
         ft.commitAllowingStateLoss();
 
+        previewCommentsFragment.setLayoutCallback(this);
         previewCommentsFragment.setActionCallback(this);
         previewCommentsFragment.setAdInterface(this);
         previewCommentsFragment.setCustomUICallback(this);
@@ -236,5 +237,10 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                     .into(adImage);
             return adLayout;
         }
+    }
+
+    @Override
+    public void containerHeightUpdated(VFFragment fragment, int height) {
+
     }
 }
