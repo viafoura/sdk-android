@@ -26,7 +26,7 @@ public class LiveChatActivity extends AppCompatActivity implements VFLoginInterf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_chat);
 
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight), Color.WHITE);
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.WHITE);
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata metadata = null;
         try {

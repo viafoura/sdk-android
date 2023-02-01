@@ -88,7 +88,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                         getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID))
         );
 
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight), Color.WHITE);
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.WHITE);
         vfSettings = new VFSettings(colors);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -48,7 +48,7 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
     }
 
     private void addNewCommentsFragment() throws MalformedURLException {
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight), Color.WHITE);
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.WHITE);
         VFSettings vfSettings = new VFSettings(colors);
         URL storyUrl = new URL(getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK));
         URL pictureUrl = new URL(getIntent().getStringExtra(IntentKeys.INTENT_STORY_PICTUREURL));
