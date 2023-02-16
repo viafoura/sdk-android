@@ -22,6 +22,7 @@ import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFProfilePresentationType;
 import com.viafourasdk.src.model.local.VFSettings;
+import com.viafourasdk.src.model.local.VFTheme;
 
 import java.net.MalformedURLException;
 import java.util.UUID;
@@ -86,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
     }
 
     @Override
-    public void customizeView(VFCustomViewType customViewType, View view) {
+    public void customizeView(VFTheme theme, VFCustomViewType customViewType, View view) {
 
     }
 }

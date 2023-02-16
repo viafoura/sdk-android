@@ -25,6 +25,8 @@ import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFNewCommentAction;
 import com.viafourasdk.src.model.local.VFSettings;
+import com.viafourasdk.src.model.local.VFTheme;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
@@ -101,7 +103,7 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
     }
 
     @Override
-    public void customizeView(VFCustomViewType viewType, View view) {
+    public void customizeView(VFTheme theme, VFCustomViewType viewType, View view) {
 
     }
 }
