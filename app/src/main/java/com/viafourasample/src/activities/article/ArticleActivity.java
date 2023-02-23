@@ -60,6 +60,7 @@ import com.viafourasdk.src.model.local.VFFonts;
 import com.viafourasdk.src.model.local.VFNotificationPresentationAction;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFSortType;
+import com.viafourasdk.src.model.local.VFTheme;
 import com.viafourasdk.src.model.local.VFTrendingSortType;
 import com.viafourasdk.src.model.local.VFTrendingViewType;
 import com.viafourasdk.src.view.VFTextView;
@@ -189,7 +190,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     @Override
-    public void customizeView(VFCustomViewType customViewType, View view) {
+    public void customizeView(VFTheme theme, VFCustomViewType customViewType, View view) {
         switch (customViewType){
             case commentCellCommentText:
                 break;
