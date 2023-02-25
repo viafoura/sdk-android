@@ -1,15 +1,14 @@
-package com.viafourasample.src.activities.article;
+package com.viafourasample.src.activities.commentsContainer;
 
 import com.viafourasample.src.managers.StoryManager;
 import com.viafourasample.src.model.Story;
 
-public class ArticleViewModel {
+public class CommentsContainerViewModel {
     private Story story;
 
-    public ArticleViewModel(String containerId) {
+    public CommentsContainerViewModel(String containerId) {
         this.story = StoryManager.getInstance().getStory(containerId);
     }
-
     public Story getStory() {
         return story;
     }

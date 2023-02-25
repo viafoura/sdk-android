@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_main"
-        app:itemBackground="@color/white"
         android:background="@color/white"
         app:itemIconTint="@android:color/holo_red_dark"
         app:itemTextColor="@android:color/holo_red_dark" />

@@ -7,16 +7,21 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.impl.model.Preference;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -37,10 +42,13 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.viafoura.sampleapp.R;
+import com.viafourasample.src.activities.commentsContainer.CommentsContainerActivity;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.newcomment.NewCommentActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;
+import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasample.src.model.Story;
 import com.viafourasdk.src.fragments.base.VFFragment;
 import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragment;
@@ -73,21 +81,16 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     private ArticleViewModel articleViewModel;
     private ScrollView scrollView;
     private VFSettings vfSettings;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
-        articleViewModel = new ArticleViewModel(
-                new Story(getIntent().getStringExtra(IntentKeys.INTENT_STORY_PICTUREURL),
-                        getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE),
-                        getIntent().getStringExtra(IntentKeys.INTENT_STORY_DESC),
-                        getIntent().getStringExtra(IntentKeys.INTENT_STORY_AUTHOR),
-                        getIntent().getStringExtra(IntentKeys.INTENT_STORY_CATEGORY),
-                        getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK),
-                        getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID))
-        );
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        articleViewModel = new ArticleViewModel(getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID));
 
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.WHITE);
         vfSettings = new VFSettings(colors);
@@ -102,8 +105,13 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
 
         scrollView = findViewById(R.id.article_scroll);
 
+        if(ColorManager.isDarkMode(getApplicationContext())){
+            scrollView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+        }
+
         WebView webView = findViewById(R.id.article_webview);
         webView.loadUrl(articleViewModel.getStory().getLink());
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -112,20 +120,42 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
             }
 
             public void onPageFinished(WebView view, String url) {
+                if(ColorManager.isDarkMode(getApplicationContext())){
+                    view.evaluateJavascript("document.documentElement.classList.add('dark');", null);
+                }
+
                 findViewById(R.id.article_loading).setVisibility(View.GONE);
                 try {
-                    addCommentsFragment();
-                    addTrendingFragment();
+                    if(preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
+                        findViewById(R.id.article_comments_fullscreen).setVisibility(View.VISIBLE);
+                    } else {
+                        addCommentsFragment();
+                    }
+
+                    if(preferences.getBoolean(SettingKeys.showTrendingArticles, false)){
+                        addTrendingFragment();
+                    }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
             }
         });
+
+        findViewById(R.id.article_comments_fullscreen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CommentsContainerActivity.class);
+                intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, articleViewModel.getStory().getContainerId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void addTrendingFragment(){
-        VFVerticalTrendingFragment trendingFragment = VFVerticalTrendingFragment.newInstance(getApplication(), "", "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
+        VFVerticalTrendingFragment trendingFragment = VFVerticalTrendingFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
         trendingFragment.setAdInterface(this);
+        trendingFragment.setCustomUICallback(this);
+        trendingFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_trending_container, trendingFragment);
         ft.commitAllowingStateLoss();
@@ -134,6 +164,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     private void addCommentsFragment() throws MalformedURLException {
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
         VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.mostLiked);
+        previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_comments_container, previewCommentsFragment);
         ft.commitAllowingStateLoss();
@@ -192,7 +223,20 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     @Override
     public void customizeView(VFTheme theme, VFCustomViewType customViewType, View view) {
         switch (customViewType){
-            case commentCellCommentText:
+            case previewBackgroundView:
+                if(theme == VFTheme.dark){
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+                }
+                break;
+            case trendingVerticalBackground:
+                if(theme == VFTheme.dark){
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+                }
+                break;
+            case trendingCarouselBackground:
+                if(theme == VFTheme.dark){
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+                }
                 break;
         }
     }

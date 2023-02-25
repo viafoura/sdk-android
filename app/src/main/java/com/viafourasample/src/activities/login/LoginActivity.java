@@ -3,7 +3,9 @@ package com.viafourasample.src.activities.login;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,15 @@ import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.loginradius.androidsdk.helper.LoginRadiusSDK;
 import com.loginradius.androidsdk.resource.SocialProviderConstant;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.signup.SignUpActivity;
+import com.viafourasample.src.managers.ColorManager;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasample.src.utils.AndroidUtils;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 
@@ -26,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private static int SIGNUP_RESULT_CODE = 1;
     private static int LOGINRADIUS_RESULT_CODE = 2;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +41,12 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Log-in");
 
+        if(ColorManager.isDarkMode(getApplicationContext())){
+            findViewById(R.id.login_holder).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+        }
+
         ((ProgressBar) findViewById(R.id.login_loading)).getIndeterminateDrawable().setColorFilter(
-                VFDefaultColors.getInstance().colorPrimaryDefault,
+                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary),
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
         TextInputEditText emailText = findViewById(R.id.login_email_text);

@@ -1,17 +1,23 @@
 package com.viafourasample.src.activities.profile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.impl.model.Preference;
+
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
+import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.profile.VFProfileFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
@@ -28,6 +34,7 @@ import java.net.MalformedURLException;
 import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity implements VFActionsInterface, VFCustomUIInterface, VFLoginInterface {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
         VFProfileFragment profileFragment = VFProfileFragment.newInstance(getApplication(), UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_USER_UUID)), presentationType, this, vfSettings);
         profileFragment.setActionCallback(this);
         profileFragment.setCustomUICallback(this);
+        profileFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.profile_container, profileFragment);
         ft.commit();

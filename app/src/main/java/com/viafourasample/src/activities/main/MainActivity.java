@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -22,12 +23,14 @@ import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.settings.SettingsActivity;
 import com.viafourasample.src.fragments.home.HomeFragment;
 import com.viafourasample.src.fragments.livechat.LiveChatFragment;
+import com.viafourasample.src.managers.ColorManager;
 import com.viafourasdk.src.services.auth.AuthService;
 
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel = new MainViewModel();
     private Menu toolbarMenu;
     private Fragment homeFragment, liveChatFragment;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         setCurrentFragment(true);
 
-        BottomNavigationView bottomNavigationView = ((BottomNavigationView) findViewById(R.id.home_bottom_navigation));
+        bottomNavigationView = ((BottomNavigationView) findViewById(R.id.home_bottom_navigation));
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -74,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if(ColorManager.isDarkMode(getApplicationContext())){
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+        } else {
+            bottomNavigationView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        }
 
         getAuthState();
     }

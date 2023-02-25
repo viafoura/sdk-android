@@ -1,7 +1,10 @@
 package com.viafourasample.src.activities.settings;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,15 +15,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viafoura.sampleapp.R;
+import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.Setting;
+import com.viafourasample.src.model.SettingKeys;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private SettingsViewModel settingsViewModel = new SettingsViewModel();
+    private SharedPreferences preferences;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +38,29 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView recyclerView = findViewById(R.id.settings_list);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        recyclerView = findViewById(R.id.settings_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SettingsAdapter());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateColors();
+
+    }
+
+    private void updateColors(){
+        if(ColorManager.isDarkMode(getApplicationContext())){
+            findViewById(R.id.settings_holder).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+        } else {
+            findViewById(R.id.settings_holder).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        }
+
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
@@ -61,11 +89,16 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(SettingsAdapter.ViewHolder holder, int position) {
             Setting setting = settingsViewModel.settingList.get(position);
+            holder.settingText.setTextColor(ColorManager.isDarkMode(getApplicationContext()) ? Color.WHITE : Color.BLACK);
             holder.settingText.setText(setting.title);
+            holder.settingSwitch.setChecked(preferences.getBoolean(setting.key, false));
             holder.settingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                    preferences.edit().putBoolean(setting.key, b).apply();
+                    if(SettingKeys.darkMode.equals(setting.key)){
+                        updateColors();
+                    }
                 }
             });
         }

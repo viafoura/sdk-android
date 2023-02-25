@@ -1,8 +1,10 @@
 package com.viafourasample.src.activities.newcomment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -13,7 +15,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
+import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.newcomment.VFNewCommentFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
@@ -75,6 +79,7 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
         VFNewCommentFragment newCommentFragment = VFNewCommentFragment.newInstance(getApplication(), newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings);
         newCommentFragment.setActionCallback(this);
         newCommentFragment.setCustomUICallback(this);
+        newCommentFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.new_comment_container, newCommentFragment);
         ft.commit();

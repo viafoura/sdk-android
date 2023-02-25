@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,12 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.article.ArticleActivity;
+import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.Story;
 
 public class HomeFragment extends Fragment {
 
     private HomeFragmentViewModel viewModel = new HomeFragmentViewModel();
+    private View rootView;
 
     @Nullable
     @Override
@@ -35,10 +38,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        rootView = view;
+
         RecyclerView recyclerView = view.findViewById(R.id.fragment_home_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         ArticleAdapter articleAdapter = new ArticleAdapter();
         recyclerView.setAdapter(articleAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(rootView != null){
+            if(getActivity() != null && ColorManager.isDarkMode(getActivity())){
+                rootView.findViewById(R.id.fragment_home_holder).setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorBackgroundArticle));
+            } else {
+                rootView.findViewById(R.id.fragment_home_holder).setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+            }
+        }
     }
 
     public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder> {
@@ -84,13 +102,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(requireContext(), ArticleActivity.class);
-                    intent.putExtra(IntentKeys.INTENT_STORY_TITLE, story.getTitle());
-                    intent.putExtra(IntentKeys.INTENT_STORY_AUTHOR, story.getAuthor());
-                    intent.putExtra(IntentKeys.INTENT_STORY_CATEGORY, story.getCategory());
-                    intent.putExtra(IntentKeys.INTENT_STORY_DESC, story.getDescription());
-                    intent.putExtra(IntentKeys.INTENT_STORY_LINK, story.getLink());
                     intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, story.getContainerId());
-                    intent.putExtra(IntentKeys.INTENT_STORY_PICTUREURL, story.getPictureUrl());
                     startActivity(intent);
                 }
             });

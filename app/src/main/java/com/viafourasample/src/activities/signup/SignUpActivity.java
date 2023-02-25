@@ -2,7 +2,9 @@ package com.viafourasample.src.activities.signup;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -10,9 +12,12 @@ import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.viafoura.sampleapp.R;
+import com.viafourasample.src.managers.ColorManager;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -23,6 +28,10 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        if(ColorManager.isDarkMode(getApplicationContext())){
+            findViewById(R.id.signup_holder).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Sign up");
@@ -32,7 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
         TextInputEditText passwordText = findViewById(R.id.signup_password_text);
 
         ((ProgressBar) findViewById(R.id.signup_loading)).getIndeterminateDrawable().setColorFilter(
-                VFDefaultColors.getInstance().colorPrimaryDefault,
+                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary),
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
         findViewById(R.id.signup_submit).setOnClickListener(new View.OnClickListener() {
