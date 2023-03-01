@@ -55,6 +55,7 @@ import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragment;
 import com.viafourasdk.src.fragments.trending.VFVerticalTrendingFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFAdInterface;
+import com.viafourasdk.src.interfaces.VFContentScrollPositionInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
 import com.viafourasdk.src.interfaces.VFLayoutInterface;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
@@ -75,6 +76,7 @@ import com.viafourasdk.src.view.VFTextView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.UUID;
 
 public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface {
 
@@ -169,6 +171,16 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         ft.replace(R.id.article_comments_container, previewCommentsFragment);
         ft.commitAllowingStateLoss();
 
+        if(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID) != null){
+            previewCommentsFragment.setScrollPositionCallback(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID)), new VFContentScrollPositionInterface() {
+                @Override
+                public void scrollToPosition(int position) {
+                    int yPosition = (int) (findViewById(R.id.article_comments_container).getY() + position);
+                    scrollView.smoothScrollTo(0, yPosition);
+                }
+            });
+        }
+
         previewCommentsFragment.setLayoutCallback(this);
         previewCommentsFragment.setActionCallback(this);
         previewCommentsFragment.setAdInterface(this);
@@ -215,6 +227,11 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
             if(action.getNotificationPresentationAction().notificationPresentationType == VFNotificationPresentationAction.VFNotificationPresentationType.profile){
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 intent.putExtra(IntentKeys.INTENT_USER_UUID, action.getNotificationPresentationAction().userUUID.toString());
+                startActivity(intent);
+            } else if(action.getNotificationPresentationAction().notificationPresentationType == VFNotificationPresentationAction.VFNotificationPresentationType.content){
+                Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
+                intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, articleViewModel.getStory().getContainerId());
+                intent.putExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID, action.getNotificationPresentationAction().contentUUID.toString());
                 startActivity(intent);
             }
         }
