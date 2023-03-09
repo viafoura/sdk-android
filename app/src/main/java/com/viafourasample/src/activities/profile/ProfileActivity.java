@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.work.impl.model.Preference;
 
 import com.viafoura.sampleapp.R;
+import com.viafourasample.src.activities.article.ArticleActivity;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
@@ -26,6 +27,7 @@ import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
+import com.viafourasdk.src.model.local.VFNotificationPresentationAction;
 import com.viafourasdk.src.model.local.VFProfilePresentationType;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
@@ -91,6 +93,18 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
     public void onNewAction(VFActionType actionType, VFActionData action) {
         if(actionType == VFActionType.closeProfilePressed){
             onBackPressed();
+        }
+        else if(actionType == VFActionType.notificationPressed){
+            if(action.getNotificationPresentationAction().notificationPresentationType == VFNotificationPresentationAction.VFNotificationPresentationType.profile){
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                intent.putExtra(IntentKeys.INTENT_USER_UUID, action.getNotificationPresentationAction().userUUID.toString());
+                startActivity(intent);
+            } else if(action.getNotificationPresentationAction().notificationPresentationType == VFNotificationPresentationAction.VFNotificationPresentationType.content){
+                Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
+                intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, action.getNotificationPresentationAction().containerId.toString());
+                intent.putExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID, action.getNotificationPresentationAction().contentUUID.toString());
+                startActivity(intent);
+            }
         }
     }
 
