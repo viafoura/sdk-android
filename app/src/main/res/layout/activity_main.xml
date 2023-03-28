@@ -14,6 +14,17 @@
 
     </RelativeLayout>
 
+    <com.viafourasdk.src.view.notificationBell.VFNotificationBellView
+        android:layout_width="wrap_content"
+        android:id="@+id/home_bell"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_above="@id/home_bottom_navigation"
+        android:layout_marginBottom="16dp"
+        android:layout_height="wrap_content">
+
+    </com.viafourasdk.src.view.notificationBell.VFNotificationBellView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/home_bottom_navigation"
         android:layout_width="match_parent"
