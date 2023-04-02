@@ -1,5 +1,6 @@
 package com.viafourasample.src.activities.livechat;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.viafoura.sampleapp.R;
+import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.livechat.VFLiveChatFragment;
@@ -60,6 +62,6 @@ public class LiveChatActivity extends AppCompatActivity implements VFLoginInterf
 
     @Override
     public void startLogin() {
-
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
 }
