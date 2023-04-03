@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.livechat.LiveChatActivity;
 import com.viafourasample.src.managers.ColorManager;
+import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.LiveChat;
 
 public class LiveChatFragment extends Fragment {
@@ -91,6 +92,7 @@ public class LiveChatFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(requireContext(), LiveChatActivity.class);
+                    intent.putExtra(IntentKeys.INTENT_STORY_TITLE, liveChat.getTitle());
                     startActivity(intent);
                 }
             });
