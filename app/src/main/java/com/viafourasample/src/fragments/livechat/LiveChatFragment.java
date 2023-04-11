@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.livechat.LiveChatActivity;
+import com.viafourasample.src.activities.livechat.LiveChatVideoActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.LiveChat;
@@ -91,9 +92,17 @@ public class LiveChatFragment extends Fragment {
             holder.itemView.findViewById(R.id.row_livechat_holder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(requireContext(), LiveChatActivity.class);
-                    intent.putExtra(IntentKeys.INTENT_STORY_TITLE, liveChat.getTitle());
-                    startActivity(intent);
+                    if(liveChat.isVideo()){
+                        Intent intent = new Intent(requireContext(), LiveChatVideoActivity.class);
+                        intent.putExtra(IntentKeys.INTENT_STORY_TITLE, liveChat.getTitle());
+                        intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, liveChat.getContainerId());
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(requireContext(), LiveChatActivity.class);
+                        intent.putExtra(IntentKeys.INTENT_STORY_TITLE, liveChat.getTitle());
+                        intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, liveChat.getContainerId());
+                        startActivity(intent);
+                    }
                 }
             });
         }

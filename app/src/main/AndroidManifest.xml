@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ViafouraSDK">
         <activity
+            android:name="com.viafourasample.src.activities.livechat.LiveChatVideoActivity"
+            android:exported="false" />
+        <activity
             android:name="com.viafourasample.src.activities.commentsContainer.CommentsContainerActivity"
             android:exported="false" />
         <activity
