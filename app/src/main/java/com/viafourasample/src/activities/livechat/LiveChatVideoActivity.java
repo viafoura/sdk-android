@@ -84,7 +84,7 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFLoginI
             e.printStackTrace();
         }
         VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getApplication(), getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), metadata, this, vfSettings);
-        liveChatFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
+        liveChatFragment.setTheme(VFTheme.dark);
         liveChatFragment.setActionCallback(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.live_chat_container, liveChatFragment);
