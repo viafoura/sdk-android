@@ -54,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
     }
 
     private void addProfileFragment() throws MalformedURLException {
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.WHITE);
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
         VFSettings vfSettings = new VFSettings(colors);
         VFProfilePresentationType presentationType = VFProfilePresentationType.profile;
         if(getIntent().getStringExtra(IntentKeys.INTENT_USER_PRESENTATION_TYPE) != null){
