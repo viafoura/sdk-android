@@ -45,7 +45,7 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments_container);
 
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.WHITE);
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
         vfSettings = new VFSettings(colors);
 
         commentsContainerViewModel = new CommentsContainerViewModel(getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID));
