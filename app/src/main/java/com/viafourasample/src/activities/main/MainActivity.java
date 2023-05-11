@@ -1,13 +1,16 @@
 package com.viafourasample.src.activities.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.impl.model.Preference;
 
 import com.facebook.Profile;
 import com.facebook.login.Login;
@@ -29,6 +33,7 @@ import com.viafourasample.src.fragments.home.HomeFragment;
 import com.viafourasample.src.fragments.livechat.LiveChatFragment;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.interfaces.NotificationBellClickedInterface;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFColors;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel = new MainViewModel();
     private Menu toolbarMenu;
     private Fragment homeFragment, liveChatFragment;
+    private SharedPreferences sharedPreferences;
     private BottomNavigationView bottomNavigationView;
 
     @Override
@@ -52,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         homeFragment = new HomeFragment();
         liveChatFragment = new LiveChatFragment();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         setCurrentFragment(true);
 
@@ -68,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setupNotificationBell();
-
         final Drawable upArrow = getResources().getDrawable(R.drawable.icon_settings);
         upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
@@ -79,9 +85,28 @@ public class MainActivity extends AppCompatActivity {
     private void setupNotificationBell(){
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
         VFSettings settings = new VFSettings(colors);
-        VFNotificationBellView bellView = findViewById(R.id.home_bell);
+
+        VFNotificationBellView bellView;
+
+        if(sharedPreferences.getBoolean(SettingKeys.showNotificationBellTopBar, false)){
+            if(toolbarMenu == null){
+                return;
+            }
+
+            bellView = (VFNotificationBellView) getLayoutInflater().inflate(R.layout.cview_bell, null);
+            findViewById(R.id.home_bell).setVisibility(View.GONE);
+            toolbarMenu.findItem(R.id.menu_main_auth).setActionView(bellView);
+        } else {
+            bellView = findViewById(R.id.home_bell);
+            bellView.setVisibility(View.VISIBLE);
+
+            if(toolbarMenu != null) {
+                toolbarMenu.findItem(R.id.menu_main_auth).setActionView(null);
+            }
+        }
+
         bellView.applySettings(settings);
-        bellView.setTheme(VFTheme.dark);
+        bellView.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.light : VFTheme.dark);
         bellView.setBellClickedInterface(new NotificationBellClickedInterface() {
             @Override
             public void bellPressed(UUID userUUID) {
@@ -123,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getAuthState();
+        setupNotificationBell();
     }
 
     @Override
@@ -130,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main_toolbar, menu);
         toolbarMenu = menu;
         getAuthState();
+        setupNotificationBell();
         return true;
     }
 
@@ -159,6 +186,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAuthState(){
+        if(sharedPreferences.getBoolean(SettingKeys.showNotificationBellTopBar, false)) {
+            return;
+        }
         viewModel.getAuthState(new AuthService.UserLoginStatusCallback() {
             @Override
             public void onSuccess(boolean userIsLoggedIn) {
