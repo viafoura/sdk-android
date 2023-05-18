@@ -66,7 +66,7 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
 
     private void addCommentsFragment() throws MalformedURLException {
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(commentsContainerViewModel.getStory().getLink()), commentsContainerViewModel.getStory().getTitle(), commentsContainerViewModel.getStory().getDescription(), new URL(commentsContainerViewModel.getStory().getPictureUrl()));
-        VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), commentsContainerViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.mostLiked);
+        VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), commentsContainerViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest);
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.comments_container, previewCommentsFragment);
