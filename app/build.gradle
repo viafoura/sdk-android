@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -11,8 +12,8 @@ android {
         applicationId "com.viafoura.sampleapp"
         minSdk 21
         targetSdk 31
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 9
+        versionName "1.0.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,6 +49,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.viafoura:android:0.0.3'
+    implementation 'com.viafoura:android:0.0.4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 }
