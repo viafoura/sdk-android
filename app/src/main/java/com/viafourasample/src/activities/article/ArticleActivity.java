@@ -117,6 +117,14 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                if(request.getUrl().toString().equals(articleViewModel.getStory().getLink())){
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
 
             }
@@ -297,6 +305,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                     .load("https://images.outbrainimg.com/transform/v3/eyJpdSI6IjYwNjA2OWRiMjFiZTc0ODAyOWEzZDAwYTczM2E2YjkxNzM2ZWZmODczYWQ5NjcyMzQzN2YxOGU2YTJhYmQ3NGYiLCJ3IjozNzUsImgiOjEyNSwiZCI6MS41LCJjcyI6MCwiZiI6NH0.webp")
                     .apply(requestOptions)
                     .into(adImage);
+
             return adLayout;
         }
     }
