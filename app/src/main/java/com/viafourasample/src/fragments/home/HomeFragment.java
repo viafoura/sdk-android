@@ -89,10 +89,12 @@ public class HomeFragment extends Fragment {
         public void onBindViewHolder(ArticleAdapter.ViewHolder holder, int position) {
             Story story = viewModel.storyList.get(position);
 
-            Glide.with(requireContext())
-                    .load(story.getPictureUrl())
-                    .centerCrop()
-                    .into(holder.imageView);
+            if(getActivity() != null){
+                Glide.with(getActivity())
+                        .load(story.getPictureUrl())
+                        .centerCrop()
+                        .into(holder.imageView);
+            }
 
             holder.titleTextView.setText(story.getTitle());
             holder.descTextView.setText(story.getDescription());
