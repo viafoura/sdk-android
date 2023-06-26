@@ -3,6 +3,8 @@ package com.viafourasample.src.activities.signup;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -15,13 +17,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 public class SignUpActivity extends AppCompatActivity {
     private SignUpViewModel viewModel = new SignUpViewModel();
+
+    private TextInputEditText nameText, emailText, passwordText;
+    private TextInputLayout nameLayout, emailLayout, passwordLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,9 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Sign up");
 
-        TextInputEditText nameText = findViewById(R.id.signup_name_text);
-        TextInputEditText emailText = findViewById(R.id.signup_email_text);
-        TextInputEditText passwordText = findViewById(R.id.signup_password_text);
+        setupTextInputs();
 
         ((ProgressBar) findViewById(R.id.signup_loading)).getIndeterminateDrawable().setColorFilter(
                 ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary),
@@ -86,6 +93,50 @@ public class SignUpActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    private void setupTextInputs(){
+        nameText = findViewById(R.id.signup_name_text);
+        emailText = findViewById(R.id.signup_email_text);
+        passwordText = findViewById(R.id.signup_password_text);
+
+        nameText.setTextColor(ColorManager.isDarkMode(this) ? Color.WHITE : Color.BLACK);
+        emailText.setTextColor(ColorManager.isDarkMode(this) ? Color.WHITE : Color.BLACK);
+        passwordText.setTextColor(ColorManager.isDarkMode(this) ? Color.WHITE : Color.BLACK);
+
+        passwordLayout = findViewById(R.id.signup_password);
+        emailLayout = findViewById(R.id.signup_email);
+        nameLayout = findViewById(R.id.signup_name);
+
+        setInputTextLayoutColor(ColorManager.isDarkMode(this) ? Color.WHITE : Color.BLACK, emailLayout);
+        setInputTextLayoutColor(ColorManager.isDarkMode(this) ? Color.WHITE : Color.BLACK, nameLayout);
+        setInputTextLayoutColor(ColorManager.isDarkMode(this) ? Color.WHITE : Color.BLACK, passwordLayout);
+    }
+
+    private void setInputTextLayoutColor(int color, TextInputLayout textInputLayout) {
+        try {
+            Field field = textInputLayout.getClass().getDeclaredField("focusedTextColor");
+            field.setAccessible(true);
+            int[][] states = new int[][]{
+                    new int[]{}
+            };
+            int[] colors = new int[]{
+                    color
+            };
+            ColorStateList myList = new ColorStateList(states, colors);
+            field.set(textInputLayout, myList);
+
+            Field fDefaultTextColor = TextInputLayout.class.getDeclaredField("defaultHintTextColor");
+            fDefaultTextColor.setAccessible(true);
+            fDefaultTextColor.set(textInputLayout, myList);
+
+            Method method = textInputLayout.getClass().getDeclaredMethod("updateLabelState", boolean.class);
+            method.setAccessible(true);
+            method.invoke(textInputLayout, true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
