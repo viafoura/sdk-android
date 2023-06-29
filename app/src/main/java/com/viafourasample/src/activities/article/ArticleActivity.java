@@ -296,6 +296,9 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
             LayoutInflater li = (LayoutInflater) getApplicationContext().getSystemService(service);
             RelativeLayout adLayout = (RelativeLayout) li.inflate(R.layout.row_ad, null);
             ImageView adImage = adLayout.findViewById(R.id.row_ad_image);
+            TextView adText = adLayout.findViewById(R.id.row_ad_title);
+
+            adText.setTextColor(ColorManager.isDarkMode(getApplicationContext()) ? Color.WHITE : Color.BLACK);
 
             RequestOptions requestOptions = new RequestOptions();
             requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(4));
