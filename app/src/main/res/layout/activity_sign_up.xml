@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:animateLayoutChanges="true"
+    android:id="@+id/signup_holder"
     android:orientation="vertical"
     tools:context="com.viafourasample.src.activities.login.LoginActivity">
 
@@ -22,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        app:boxBackgroundColor="@color/white"
-        android:background="@color/white"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent"
         android:layout_height="wrap_content"
         android:hint="Name">
 
@@ -41,8 +42,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        app:boxBackgroundColor="@color/white"
-        android:background="@color/white"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent"
         android:layout_height="wrap_content"
         android:hint="E-mail">
 
@@ -58,8 +59,8 @@
         android:id="@+id/signup_password"
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        app:boxBackgroundColor="@color/white"
-        android:background="@color/white"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:background="@android:color/transparent"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_height="wrap_content"

@@ -12,17 +12,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.livechat.LiveChatActivity;
+import com.viafourasample.src.activities.livechat.LiveChatVideoActivity;
+import com.viafourasample.src.managers.ColorManager;
+import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.LiveChat;
 
 public class LiveChatFragment extends Fragment {
 
     private LiveChatFragmentViewModel viewModel = new LiveChatFragmentViewModel();
+    private View rootView;
 
     @Nullable
     @Override
@@ -34,10 +39,25 @@ public class LiveChatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        rootView = view;
+
         RecyclerView recyclerView = view.findViewById(R.id.fragment_home_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         LiveChatAdapter articleAdapter = new LiveChatAdapter();
         recyclerView.setAdapter(articleAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(rootView != null){
+            if(getActivity() != null && ColorManager.isDarkMode(getActivity())){
+                rootView.findViewById(R.id.fragment_home_holder).setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorBackgroundArticle));
+            } else {
+                rootView.findViewById(R.id.fragment_home_holder).setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+            }
+        }
     }
 
     public class LiveChatAdapter extends RecyclerView.Adapter<LiveChatAdapter.ViewHolder> {
@@ -72,8 +92,17 @@ public class LiveChatFragment extends Fragment {
             holder.itemView.findViewById(R.id.row_livechat_holder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(requireContext(), LiveChatActivity.class);
-                    startActivity(intent);
+                    if(liveChat.isVideo()){
+                        Intent intent = new Intent(requireContext(), LiveChatVideoActivity.class);
+                        intent.putExtra(IntentKeys.INTENT_STORY_TITLE, liveChat.getTitle());
+                        intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, liveChat.getContainerId());
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(requireContext(), LiveChatActivity.class);
+                        intent.putExtra(IntentKeys.INTENT_STORY_TITLE, liveChat.getTitle());
+                        intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, liveChat.getContainerId());
+                        startActivity(intent);
+                    }
                 }
             });
         }

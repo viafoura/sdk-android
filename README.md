@@ -7,7 +7,7 @@ This library allows you to integrate Viafoura tools into a native Android app.
 #### Using Gradle
 Add the following line to your app level build.gradle
 ```
-implementation 'com.viafoura:android:0.0.1'
+implementation 'com.viafoura:android:0.0.19'
 ```
 
 ### See our documentation

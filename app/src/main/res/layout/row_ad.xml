@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -33,7 +32,7 @@
         android:layout_marginRight="20dp"
         android:textColor="#46C236"
         android:text="Sponsored"
-        android:fontFamily="@font/inter_medium"
+        android:fontFamily="@font/roboto_regular"
         android:layout_toRightOf="@+id/row_ad_indicator"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content">
@@ -45,7 +44,7 @@
         android:layout_width="match_parent"
         android:textColor="#000"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
+        android:fontFamily="@font/roboto_regular"
         android:layout_below="@+id/row_ad_sponsored"
         android:text="Autos Nuevos | Enlaces Publicitarios"
         android:layout_marginTop="3dp"
@@ -59,7 +58,7 @@
         android:layout_marginRight="20dp"
         android:id="@+id/row_ad_desc"
         android:textColor="#9A9A9A"
-        android:fontFamily="@font/inter_medium"
+        android:fontFamily="@font/roboto_regular"
         android:layout_marginTop="3dp"
         android:text="Ushuaia: Los autos sin vender de 2021 casi se regalan"
         android:layout_toRightOf="@+id/row_ad_indicator"
