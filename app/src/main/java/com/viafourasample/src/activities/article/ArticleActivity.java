@@ -88,6 +88,8 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     private VFSettings vfSettings;
     private SharedPreferences preferences;
 
+    public static final String TAG_COMMENTS_FRAGMENT = "COMMENTS_FRAGMENT";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,11 +177,15 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     private void addCommentsFragment() throws MalformedURLException {
+        if(getSupportFragmentManager().findFragmentByTag(TAG_COMMENTS_FRAGMENT) != null){
+            return;
+        }
+
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
         VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest);
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.article_comments_container, previewCommentsFragment);
+        ft.replace(R.id.article_comments_container, previewCommentsFragment, TAG_COMMENTS_FRAGMENT);
         ft.commitAllowingStateLoss();
 
         if(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID) != null){
