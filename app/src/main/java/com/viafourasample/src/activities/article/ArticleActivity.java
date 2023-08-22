@@ -89,6 +89,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     private SharedPreferences preferences;
 
     public static final String TAG_COMMENTS_FRAGMENT = "COMMENTS_FRAGMENT";
+    public static final String TAG_TRENDING_FRAGMENT = "TRENDING_FRAGMENT";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -167,12 +168,16 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     private void addTrendingFragment(){
+        if(getSupportFragmentManager().findFragmentByTag(TAG_TRENDING_FRAGMENT) != null){
+            return;
+        }
+
         VFVerticalTrendingFragment trendingFragment = VFVerticalTrendingFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
         trendingFragment.setAdInterface(this);
         trendingFragment.setCustomUICallback(this);
         trendingFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.article_trending_container, trendingFragment);
+        ft.replace(R.id.article_trending_container, trendingFragment, TAG_TRENDING_FRAGMENT);
         ft.commitAllowingStateLoss();
     }
 
