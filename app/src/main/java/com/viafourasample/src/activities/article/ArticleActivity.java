@@ -313,13 +313,13 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     @Override
-    public void containerHeightUpdated(VFFragment fragment, int height) {
-
-    }
-
-    @Override
     public void scrollToPosition(int position) {
         int yPosition = (int) (findViewById(R.id.article_comments_container).getY() + position);
         scrollView.smoothScrollTo(0, yPosition);
+    }
+
+    @Override
+    public void containerHeightUpdated(VFFragment fragment, String containerId, int height) {
+
     }
 }
