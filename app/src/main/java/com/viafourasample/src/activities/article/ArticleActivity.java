@@ -76,9 +76,12 @@ import com.viafourasdk.src.view.VFTextView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
-public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface {
+public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface, VFContentScrollPositionInterface {
 
     private ArticleViewModel articleViewModel;
     private ScrollView scrollView;
@@ -180,19 +183,15 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         ft.commitAllowingStateLoss();
 
         if(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID) != null){
-            previewCommentsFragment.setScrollPositionCallback(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID)), new VFContentScrollPositionInterface() {
-                @Override
-                public void scrollToPosition(int position) {
-                    int yPosition = (int) (findViewById(R.id.article_comments_container).getY() + position);
-                    scrollView.smoothScrollTo(0, yPosition);
-                }
-            });
+            previewCommentsFragment.setFocusContent(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID)));
         }
 
+        previewCommentsFragment.setScrollPositionCallback(this);
         previewCommentsFragment.setLayoutCallback(this);
         previewCommentsFragment.setActionCallback(this);
         previewCommentsFragment.setAdInterface(this);
         previewCommentsFragment.setCustomUICallback(this);
+        previewCommentsFragment.setAuthorIds(Collections.singletonList("3147700024522"));
     }
 
     @Override
@@ -316,5 +315,11 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     @Override
     public void containerHeightUpdated(VFFragment fragment, int height) {
 
+    }
+
+    @Override
+    public void scrollToPosition(int position) {
+        int yPosition = (int) (findViewById(R.id.article_comments_container).getY() + position);
+        scrollView.smoothScrollTo(0, yPosition);
     }
 }
