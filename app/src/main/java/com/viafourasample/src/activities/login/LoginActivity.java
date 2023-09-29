@@ -67,7 +67,8 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.login_facebook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchSocialLogin(SocialProviderConstant.FACEBOOK);
+                LoginRadiusSDK.NativeLogin nativeLogin = new LoginRadiusSDK.NativeLogin();
+                nativeLogin.startFacebookNativeLogin(LoginActivity.this, LOGINRADIUS_RESULT_CODE);
             }
         });
 
@@ -88,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.login_google).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchSocialLogin(SocialProviderConstant.GOOGLE);
+                LoginRadiusSDK.NativeLogin nativeLogin = new LoginRadiusSDK.NativeLogin();
+                nativeLogin.startGoogleNativeLogin(LoginActivity.this, LOGINRADIUS_RESULT_CODE);
             }
         });
 
