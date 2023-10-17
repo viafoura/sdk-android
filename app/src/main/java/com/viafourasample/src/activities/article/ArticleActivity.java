@@ -76,14 +76,20 @@ import com.viafourasdk.src.view.VFTextView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
-public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface {
+public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface, VFContentScrollPositionInterface {
 
     private ArticleViewModel articleViewModel;
     private ScrollView scrollView;
     private VFSettings vfSettings;
     private SharedPreferences preferences;
+
+    public static final String TAG_COMMENTS_FRAGMENT = "COMMENTS_FRAGMENT";
+    public static final String TAG_TRENDING_FRAGMENT = "TRENDING_FRAGMENT";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,37 +168,41 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     private void addTrendingFragment(){
+        if(getSupportFragmentManager().findFragmentByTag(TAG_TRENDING_FRAGMENT) != null){
+            return;
+        }
+
         VFVerticalTrendingFragment trendingFragment = VFVerticalTrendingFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
         trendingFragment.setAdInterface(this);
         trendingFragment.setCustomUICallback(this);
         trendingFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.article_trending_container, trendingFragment);
+        ft.replace(R.id.article_trending_container, trendingFragment, TAG_TRENDING_FRAGMENT);
         ft.commitAllowingStateLoss();
     }
 
     private void addCommentsFragment() throws MalformedURLException {
+        if(getSupportFragmentManager().findFragmentByTag(TAG_COMMENTS_FRAGMENT) != null){
+            return;
+        }
+
         VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
         VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest);
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.article_comments_container, previewCommentsFragment);
+        ft.replace(R.id.article_comments_container, previewCommentsFragment, TAG_COMMENTS_FRAGMENT);
         ft.commitAllowingStateLoss();
 
         if(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID) != null){
-            previewCommentsFragment.setScrollPositionCallback(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID)), new VFContentScrollPositionInterface() {
-                @Override
-                public void scrollToPosition(int position) {
-                    int yPosition = (int) (findViewById(R.id.article_comments_container).getY() + position);
-                    scrollView.smoothScrollTo(0, yPosition);
-                }
-            });
+            previewCommentsFragment.setFocusContent(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID)));
         }
 
+        previewCommentsFragment.setScrollPositionCallback(this);
         previewCommentsFragment.setLayoutCallback(this);
         previewCommentsFragment.setActionCallback(this);
         previewCommentsFragment.setAdInterface(this);
         previewCommentsFragment.setCustomUICallback(this);
+        previewCommentsFragment.setAuthorIds(Collections.singletonList("3147700024522"));
     }
 
     @Override
@@ -314,7 +324,13 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     }
 
     @Override
-    public void containerHeightUpdated(VFFragment fragment, int height) {
+    public void scrollToPosition(int position) {
+        int yPosition = (int) (findViewById(R.id.article_comments_container).getY() + position);
+        scrollView.smoothScrollTo(0, yPosition);
+    }
+
+    @Override
+    public void containerHeightUpdated(VFFragment fragment, String containerId, int height) {
 
     }
 }
