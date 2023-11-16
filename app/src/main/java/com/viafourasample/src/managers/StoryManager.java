@@ -30,7 +30,7 @@ public class StoryManager {
             }
         }
 
-        return null;
+        return storyList.get(0);
     }
 
     public List<Story> getStoryList(){

@@ -12,6 +12,7 @@ import androidx.work.impl.model.Preference;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -303,6 +305,20 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                     .into(adImage);
 
             return adLayout;
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        VFPreviewCommentsFragment commentsFragment = (VFPreviewCommentsFragment) getSupportFragmentManager().findFragmentByTag(TAG_COMMENTS_FRAGMENT);
+        if(commentsFragment != null){
+            commentsFragment.setScrollPositionCallback(this);
+            commentsFragment.setLayoutCallback(this);
+            commentsFragment.setActionCallback(this);
+            commentsFragment.setAdInterface(this);
+            commentsFragment.setCustomUICallback(this);
         }
     }
 

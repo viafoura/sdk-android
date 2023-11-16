@@ -16,6 +16,7 @@
             android:exported="false" />
         <activity
             android:name="com.viafourasample.src.activities.commentsContainer.CommentsContainerActivity"
+            android:configChanges="screenSize|orientation|screenLayout"
             android:exported="false" />
         <activity
             android:name="com.viafourasample.src.activities.livechat.LiveChatActivity"
@@ -37,6 +38,7 @@
             android:exported="false" />
         <activity
             android:name="com.viafourasample.src.activities.article.ArticleActivity"
+            android:configChanges="screenSize|orientation|screenLayout"
             android:exported="false" />
         <activity
             android:name="com.viafourasample.src.activities.main.MainActivity"
