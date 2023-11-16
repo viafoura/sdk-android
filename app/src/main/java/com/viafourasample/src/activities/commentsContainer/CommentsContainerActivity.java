@@ -2,12 +2,14 @@ package com.viafourasample.src.activities.commentsContainer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -40,6 +42,8 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
     private VFSettings vfSettings;
     private CommentsContainerViewModel commentsContainerViewModel;
 
+    public static final String TAG_COMMENTS_FRAGMENT = "COMMENTS_FRAGMENT";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +73,7 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
         VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), commentsContainerViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest);
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.comments_container, previewCommentsFragment);
+        ft.replace(R.id.comments_container, previewCommentsFragment, TAG_COMMENTS_FRAGMENT);
         ft.commitAllowingStateLoss();
 
         previewCommentsFragment.setCustomUICallback(this);
@@ -113,6 +117,17 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        VFPreviewCommentsFragment commentsFragment = (VFPreviewCommentsFragment) getSupportFragmentManager().findFragmentByTag(TAG_COMMENTS_FRAGMENT);
+        if(commentsFragment != null){
+            commentsFragment.setActionCallback(this);
+            commentsFragment.setCustomUICallback(this);
+        }
     }
 
     @Override

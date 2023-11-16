@@ -12,6 +12,7 @@ import androidx.work.impl.model.Preference;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -71,9 +73,6 @@ import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFSortType;
 import com.viafourasdk.src.model.local.VFTheme;
 import com.viafourasdk.src.model.local.VFTrendingSortType;
-import com.viafourasdk.src.model.local.VFTrendingViewType;
-import com.viafourasdk.src.view.VFTextView;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -89,7 +88,6 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
     private SharedPreferences preferences;
 
     public static final String TAG_COMMENTS_FRAGMENT = "COMMENTS_FRAGMENT";
-    public static final String TAG_TRENDING_FRAGMENT = "TRENDING_FRAGMENT";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,9 +146,6 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                         addCommentsFragment();
                     }
 
-                    if(preferences.getBoolean(SettingKeys.showTrendingArticles, false)){
-                        addTrendingFragment();
-                    }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -165,20 +160,6 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                 startActivity(intent);
             }
         });
-    }
-
-    private void addTrendingFragment(){
-        if(getSupportFragmentManager().findFragmentByTag(TAG_TRENDING_FRAGMENT) != null){
-            return;
-        }
-
-        VFVerticalTrendingFragment trendingFragment = VFVerticalTrendingFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), "Trending content", 10, 10, 10, VFTrendingSortType.comments, VFTrendingViewType.full, vfSettings);
-        trendingFragment.setAdInterface(this);
-        trendingFragment.setCustomUICallback(this);
-        trendingFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.article_trending_container, trendingFragment, TAG_TRENDING_FRAGMENT);
-        ft.commitAllowingStateLoss();
     }
 
     private void addCommentsFragment() throws MalformedURLException {
@@ -252,6 +233,10 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                 intent.putExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID, action.getNotificationPresentationAction().contentUUID.toString());
                 startActivity(intent);
             }
+        } else if(actionType == VFActionType.trendingArticlePressed){
+            Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
+            intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, action.getTrendingPressedAction().containerId);
+            startActivity(intent);
         }
     }
 
@@ -320,6 +305,20 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                     .into(adImage);
 
             return adLayout;
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        VFPreviewCommentsFragment commentsFragment = (VFPreviewCommentsFragment) getSupportFragmentManager().findFragmentByTag(TAG_COMMENTS_FRAGMENT);
+        if(commentsFragment != null){
+            commentsFragment.setScrollPositionCallback(this);
+            commentsFragment.setLayoutCallback(this);
+            commentsFragment.setActionCallback(this);
+            commentsFragment.setAdInterface(this);
+            commentsFragment.setCustomUICallback(this);
         }
     }
 
