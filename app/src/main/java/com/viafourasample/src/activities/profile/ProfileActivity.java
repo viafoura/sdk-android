@@ -46,14 +46,10 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.profile));
 
-        try {
-            addProfileFragment();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        addProfileFragment();
     }
 
-    private void addProfileFragment() throws MalformedURLException {
+    private void addProfileFragment() {
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
         VFSettings vfSettings = new VFSettings(colors);
         VFProfilePresentationType presentationType = VFProfilePresentationType.profile;

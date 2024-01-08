@@ -46,19 +46,13 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Nuevo comentario");
 
-        try {
-            addNewCommentsFragment();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        addNewCommentsFragment();
     }
 
-    private void addNewCommentsFragment() throws MalformedURLException {
+    private void addNewCommentsFragment() {
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
         VFSettings vfSettings = new VFSettings(colors);
-        URL storyUrl = new URL(getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK));
-        URL pictureUrl = new URL(getIntent().getStringExtra(IntentKeys.INTENT_STORY_PICTUREURL));
-        VFArticleMetadata articleMetadata = new VFArticleMetadata(storyUrl, getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), getIntent().getStringExtra(IntentKeys.INTENT_STORY_DESC), pictureUrl);
+        VFArticleMetadata articleMetadata = new VFArticleMetadata(getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK), getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), getIntent().getStringExtra(IntentKeys.INTENT_STORY_DESC), getIntent().getStringExtra(IntentKeys.INTENT_STORY_PICTUREURL));
 
         VFNewCommentAction newCommentAction = null;
 
