@@ -139,16 +139,12 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                 }
 
                 findViewById(R.id.article_loading).setVisibility(View.GONE);
-                try {
-                    if(preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
-                        findViewById(R.id.article_comments_fullscreen).setVisibility(View.VISIBLE);
-                    } else {
-                        addCommentsFragment();
-                    }
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                if(preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
+                    findViewById(R.id.article_comments_fullscreen).setVisibility(View.VISIBLE);
+                } else {
+                    addCommentsFragment();
                 }
+
             }
         });
 
@@ -162,12 +158,12 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         });
     }
 
-    private void addCommentsFragment() throws MalformedURLException {
+    private void addCommentsFragment() {
         if(getSupportFragmentManager().findFragmentByTag(TAG_COMMENTS_FRAGMENT) != null){
             return;
         }
 
-        VFArticleMetadata articleMetadata = new VFArticleMetadata(new URL(articleViewModel.getStory().getLink()), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), new URL(articleViewModel.getStory().getPictureUrl()));
+        VFArticleMetadata articleMetadata = new VFArticleMetadata(articleViewModel.getStory().getLink(), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), articleViewModel.getStory().getPictureUrl());
         VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(getApplication(), articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest);
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
