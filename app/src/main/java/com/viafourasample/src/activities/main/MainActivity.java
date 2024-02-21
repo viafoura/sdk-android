@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         }
         viewModel.getAuthState(new AuthService.UserLoginStatusCallback() {
             @Override
-            public void onSuccess(boolean userIsLoggedIn) {
+            public void onSuccess(boolean userIsLoggedIn, String userUUID) {
                 if(toolbarMenu != null){
                     if(userIsLoggedIn){
                         toolbarMenu.findItem(R.id.menu_main_auth).setTitle("Log out");
