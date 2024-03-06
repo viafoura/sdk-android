@@ -70,7 +70,7 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
             newCommentAction.content = UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_NEW_COMMENT_CONTENT));
         }
 
-        VFNewCommentFragment newCommentFragment = VFNewCommentFragment.newInstance(getApplication(), newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings);
+        VFNewCommentFragment newCommentFragment = VFNewCommentFragment.newInstance(newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings);
         newCommentFragment.setActionCallback(this);
         newCommentFragment.setCustomUICallback(this);
         newCommentFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);

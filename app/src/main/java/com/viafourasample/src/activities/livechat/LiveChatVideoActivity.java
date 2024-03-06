@@ -78,7 +78,7 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFLoginI
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.TRANSPARENT);
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata metadata = new VFArticleMetadata("https://viafoura-mobile-demo.vercel.app", getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), "", "https://viafoura-mobile-demo.vercel.app");
-        VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getApplication(), getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), metadata, this, vfSettings);
+        VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), metadata, this, vfSettings);
         liveChatFragment.setTheme(VFTheme.dark);
         liveChatFragment.setActionCallback(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
