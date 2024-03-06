@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId "com.viafoura.sampleapp"
-        minSdk 21
+        minSdk 24
         targetSdk 31
-        versionCode 13
-        versionName "1.0.12"
+        versionCode 25
+        versionName "1.0.24"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,6 +50,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.viafoura:android:0.0.19'
+    implementation 'com.viafoura:android:0.0.50'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 }
