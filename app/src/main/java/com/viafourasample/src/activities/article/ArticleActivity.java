@@ -65,6 +65,7 @@ import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
+import com.viafourasdk.src.model.local.VFCommentsContainerType;
 import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFDefaultColors;
 import com.viafourasdk.src.model.local.VFFonts;
@@ -164,7 +165,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         }
 
         VFArticleMetadata articleMetadata = new VFArticleMetadata(articleViewModel.getStory().getLink(), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), articleViewModel.getStory().getPictureUrl());
-        VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest);
+        VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest, 0, 0, null, articleViewModel.getStory().getStoryType() == Story.StoryType.comments ? VFCommentsContainerType.conversations : VFCommentsContainerType.reviews);
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_comments_container, previewCommentsFragment, TAG_COMMENTS_FRAGMENT);
