@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -90,6 +91,22 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
 
     public static final String TAG_COMMENTS_FRAGMENT = "COMMENTS_FRAGMENT";
 
+    interface WebViewDelegate {
+        void triggerEngagementStarter();
+    }
+
+    public class WebViewInterface {
+        private WebViewDelegate webViewDelegate;
+
+        public WebViewInterface(WebViewDelegate webViewDelegate){
+            this.webViewDelegate = webViewDelegate;
+        }
+        @JavascriptInterface
+        public void triggerEngagementStarter(){
+           webViewDelegate.triggerEngagementStarter();
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,8 +134,18 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         }
 
         WebView webView = findViewById(R.id.article_webview);
-        webView.loadUrl(articleViewModel.getStory().getLink());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        WebViewInterface webViewInterface = new WebViewInterface(new WebViewDelegate() {
+            @Override
+            public void triggerEngagementStarter() {
+                float yPosition = (findViewById(R.id.article_comments_container).getY());
+                scrollView.smoothScrollTo(0, (int) yPosition);
+            }
+        });
+
+        webView.addJavascriptInterface(webViewInterface, "NativeAndroid");
+        webView.loadUrl(articleViewModel.getStory().getLink());
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -138,6 +165,8 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                 if(ColorManager.isDarkMode(getApplicationContext())){
                     view.evaluateJavascript("document.documentElement.classList.add('dark');", null);
                 }
+
+                view.evaluateJavascript("setTimeout(function() { document.querySelector('.vf-conversation-starter_link').onclick = function() {  NativeAndroid.triggerEngagementStarter(); }; }, 5000);", null);
 
                 findViewById(R.id.article_loading).setVisibility(View.GONE);
                 if(preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
