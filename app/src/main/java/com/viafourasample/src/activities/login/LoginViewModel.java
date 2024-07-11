@@ -19,14 +19,14 @@ public class LoginViewModel {
 
             @Override
             public void onError(NetworkError err) {
-                callback.onError();
+                callback.onError(err.message);
             }
         });
     }
 
     interface LoginCallback {
         void onSuccess();
-        void onError();
+        void onError(String errorMessage);
     }
 
     public void resetPassword(String email, PasswordResetCallback callback){

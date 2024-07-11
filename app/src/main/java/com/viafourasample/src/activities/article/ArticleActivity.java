@@ -166,7 +166,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
                     view.evaluateJavascript("document.documentElement.classList.add('dark');", null);
                 }
 
-                view.evaluateJavascript("setTimeout(function() { document.querySelector('.vf-conversation-starter_link').onclick = function() {  NativeAndroid.triggerEngagementStarter(); }; }, 5000);", null);
+                view.evaluateJavascript("setTimeout(function() { document.querySelector('.vf-conversation-starter_link').onclick = function() {  NativeAndroid.triggerEngagementStarter(); }; document.querySelector('.vf-editors-pick_container-actions').onclick = function() {  NativeAndroid.triggerEngagementStarter(); }; }, 5000);", null);
 
                 findViewById(R.id.article_loading).setVisibility(View.GONE);
                 if(preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
