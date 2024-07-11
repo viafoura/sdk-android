@@ -8,8 +8,14 @@ public class Story {
     private String category;
     private String link;
     private String containerId;
+    private StoryType storyType;
 
-    public Story(String pictureUrl, String title, String description, String author, String category, String link, String containerId) {
+
+    public enum StoryType {
+        comments, reviews
+    }
+
+    public Story(String pictureUrl, String title, String description, String author, String category, String link, String containerId, StoryType storyType) {
         this.pictureUrl = pictureUrl;
         this.title = title;
         this.description = description;
@@ -17,6 +23,15 @@ public class Story {
         this.category = category;
         this.link = link;
         this.containerId = containerId;
+        this.storyType = storyType;
+    }
+
+    public StoryType getStoryType() {
+        return storyType;
+    }
+
+    public void setStoryType(StoryType storyType) {
+        this.storyType = storyType;
     }
 
     public String getPictureUrl() {

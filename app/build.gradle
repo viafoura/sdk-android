@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.viafoura.sampleapp"
         minSdk 24
-        targetSdk 31
+        targetSdk 33
         versionCode 25
         versionName "1.0.24"
 
@@ -50,6 +50,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.viafoura:android:0.0.50'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    implementation 'com.onesignal:OneSignal:[5.0.0, 5.99.99]'
+
+    implementation 'com.viafoura:android:1.1.2'
 }

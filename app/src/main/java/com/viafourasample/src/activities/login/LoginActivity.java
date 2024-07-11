@@ -116,11 +116,11 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(String errorMessage) {
                         findViewById(R.id.login_submit).setVisibility(View.VISIBLE);
                         findViewById(R.id.login_loading).setVisibility(View.GONE);
 
-                        showAlert("Invalid credentials", "The login has failed");
+                        showAlert("Invalid credentials", errorMessage);
                     }
                 });
             }
