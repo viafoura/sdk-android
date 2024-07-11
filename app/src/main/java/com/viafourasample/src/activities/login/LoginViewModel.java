@@ -1,5 +1,6 @@
 package com.viafourasample.src.activities.login;
 
+import com.onesignal.OneSignal;
 import com.viafourasdk.src.ViafouraSDK;
 import com.viafourasdk.src.model.network.authentication.login.LoginResponse;
 import com.viafourasdk.src.model.network.authentication.loginradius.LoginRadiusLoginResponse;
@@ -14,6 +15,7 @@ public class LoginViewModel {
         auth.login(email, password, new AuthService.LoginCallback() {
             @Override
             public void onSuccess(LoginResponse loginResponse) {
+                OneSignal.login(String.valueOf(loginResponse.result.id));
                 callback.onSuccess();
             }
 
