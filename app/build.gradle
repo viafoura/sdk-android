@@ -12,8 +12,8 @@ android {
         applicationId "com.viafoura.sampleapp"
         minSdk 24
         targetSdk 33
-        versionCode 25
-        versionName "1.0.24"
+        versionCode 26
+        versionName "1.0.25"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,4 +53,5 @@ dependencies {
     implementation 'com.onesignal:OneSignal:[5.0.0, 5.99.99]'
 
     implementation 'com.viafoura:android:1.1.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 }
