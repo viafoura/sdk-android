@@ -20,3 +20,20 @@ implementation 'com.viafoura:android:1.1.4'
 ### See our documentation
 
 Please follow [the official Viafoura Android SDK documentation](https://documentation.viafoura.com/docs/add-the-viafoura-android-sdk-to-your-app).
+
+
+## How to initialize the SDK?
+1) Create an `Application` class for your app.
+2) Initialize the SDK in the `onCreate()`. Make sure to replace SITE_UUID and SITE_DOMAIN with the values corresponding to your domain.
+
+```java
+public class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        ViafouraSDK.initialize(getApplicationContext(), "SITE_UUID", "SITE_DOMAIN");
+    }
+}
+```
+
