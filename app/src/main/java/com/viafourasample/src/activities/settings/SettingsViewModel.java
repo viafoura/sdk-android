@@ -12,6 +12,7 @@ public class SettingsViewModel {
     public SettingsViewModel(){
         settingList.add(new Setting("Use comments container on fullscreen", SettingKeys.commentsContainerFullscreen));
         settingList.add(new Setting("Dark mode", SettingKeys.darkMode));
+        settingList.add(new Setting("Custom container IDs", SettingKeys.customContainerIDs));
         settingList.add(new Setting("Show notification bell on top bar", SettingKeys.showNotificationBellTopBar));
     }
 }

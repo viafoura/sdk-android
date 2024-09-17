@@ -2,7 +2,9 @@ package com.viafourasample.src.fragments.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,14 @@ import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.article.ArticleActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasample.src.model.Story;
 
 public class HomeFragment extends Fragment {
 
     private HomeFragmentViewModel viewModel = new HomeFragmentViewModel();
     private View rootView;
+    private SharedPreferences preferences;
 
     @Nullable
     @Override
@@ -40,6 +44,8 @@ public class HomeFragment extends Fragment {
 
         rootView = view;
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         RecyclerView recyclerView = view.findViewById(R.id.fragment_home_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         ArticleAdapter articleAdapter = new ArticleAdapter();
@@ -51,6 +57,8 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
         if(rootView != null){
+            rootView.findViewById(R.id.fragment_home_add).setVisibility(preferences.getBoolean(SettingKeys.customContainerIDs, false) ? View.VISIBLE : View.GONE);
+
             if(getActivity() != null && ColorManager.isDarkMode(getActivity())){
                 rootView.findViewById(R.id.fragment_home_holder).setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorBackgroundArticle));
             } else {
