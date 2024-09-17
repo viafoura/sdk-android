@@ -67,13 +67,17 @@ public class HomeFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Custom container");
         final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setHint("Container ID");
         builder.setView(input);
 
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String containerID = input.getText().toString();
+                String containerID = input.getText().toString().trim();
+                Intent intent = new Intent(requireContext(), ArticleActivity.class);
+                intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, containerID);
+                startActivity(intent);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
