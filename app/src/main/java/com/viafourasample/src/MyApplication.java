@@ -2,7 +2,6 @@ package com.viafourasample.src;
 
 import android.app.Application;
 import com.google.android.gms.ads.MobileAds;
-import com.loginradius.androidsdk.helper.LoginRadiusSDK;
 import com.onesignal.OneSignal;
 import com.viafourasdk.src.ViafouraSDK;
 
@@ -19,11 +18,6 @@ public class MyApplication extends Application {
         singleton = this;
 
         MobileAds.initialize(this);
-
-        LoginRadiusSDK.Initialize init = new LoginRadiusSDK.Initialize();
-        init.setApiKey("fb763410-afd1-4646-8232-5a5a4f0d9bae");
-        init.setSiteName("viafoura-login");
-
 
         OneSignal.initWithContext(this, "8add46ba-1535-4c77-8c97-4faccd2cd7e5");
 
