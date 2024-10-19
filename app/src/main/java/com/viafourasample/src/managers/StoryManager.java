@@ -30,7 +30,7 @@ public class StoryManager {
             }
         }
 
-        return storyList.get(0);
+        return Story.randomStory(containerId);
     }
 
     public List<Story> getStoryList(){

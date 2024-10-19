@@ -23,8 +23,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.loginradius.androidsdk.helper.LoginRadiusSDK;
-import com.loginradius.androidsdk.resource.SocialProviderConstant;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.signup.SignUpActivity;
 import com.viafourasample.src.managers.ColorManager;
@@ -63,36 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
         setupTextInputs();
-
-        findViewById(R.id.login_facebook).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginRadiusSDK.NativeLogin nativeLogin = new LoginRadiusSDK.NativeLogin();
-                nativeLogin.startFacebookNativeLogin(LoginActivity.this, LOGINRADIUS_RESULT_CODE);
-            }
-        });
-
-        findViewById(R.id.login_linkedin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchSocialLogin(SocialProviderConstant.LINKEDIN);
-            }
-        });
-
-        findViewById(R.id.login_twitter).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchSocialLogin(SocialProviderConstant.TWITTER);
-            }
-        });
-
-        findViewById(R.id.login_google).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginRadiusSDK.NativeLogin nativeLogin = new LoginRadiusSDK.NativeLogin();
-                nativeLogin.startGoogleNativeLogin(LoginActivity.this, LOGINRADIUS_RESULT_CODE);
-            }
-        });
 
         setupReset();
         setupSignup();
@@ -136,12 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
-    }
-
-    private void launchSocialLogin(SocialProviderConstant socialProvider){
-        LoginRadiusSDK.WebLogin webLogin = new LoginRadiusSDK.WebLogin();
-        webLogin.setProvider(socialProvider);
-        webLogin.startWebLogin(LoginActivity.this, LOGINRADIUS_RESULT_CODE);
     }
 
     @Override

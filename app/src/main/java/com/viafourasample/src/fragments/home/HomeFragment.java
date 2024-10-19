@@ -1,16 +1,22 @@
 package com.viafourasample.src.fragments.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,12 +27,14 @@ import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.article.ArticleActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasample.src.model.Story;
 
 public class HomeFragment extends Fragment {
 
     private HomeFragmentViewModel viewModel = new HomeFragmentViewModel();
     private View rootView;
+    private SharedPreferences preferences;
 
     @Nullable
     @Override
@@ -40,10 +48,46 @@ public class HomeFragment extends Fragment {
 
         rootView = view;
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         RecyclerView recyclerView = view.findViewById(R.id.fragment_home_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         ArticleAdapter articleAdapter = new ArticleAdapter();
         recyclerView.setAdapter(articleAdapter);
+
+        rootView.findViewById(R.id.fragment_home_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presentCustomContainerDialog();
+            }
+        });
+    }
+
+    private void presentCustomContainerDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Custom container");
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint("Container ID");
+        builder.setView(input);
+
+        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String containerID = input.getText().toString().trim();
+                Intent intent = new Intent(requireContext(), ArticleActivity.class);
+                intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, containerID);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override
@@ -51,6 +95,8 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
         if(rootView != null){
+            rootView.findViewById(R.id.fragment_home_add).setVisibility(preferences.getBoolean(SettingKeys.customContainerIDs, false) ? View.VISIBLE : View.GONE);
+
             if(getActivity() != null && ColorManager.isDarkMode(getActivity())){
                 rootView.findViewById(R.id.fragment_home_holder).setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorBackgroundArticle));
             } else {

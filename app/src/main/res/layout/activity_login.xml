@@ -81,117 +81,6 @@
 
     </androidx.appcompat.widget.AppCompatButton>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:weightSum="4"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/login_apple"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/apple"
-                android:layout_height="30dp">
-
-            </ImageView>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_centerVertical="true"
-                android:id="@+id/login_google"
-                android:layout_centerHorizontal="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/google"
-                android:layout_height="30dp">
-
-            </ImageView>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_centerVertical="true"
-                android:id="@+id/login_facebook"
-                android:layout_centerHorizontal="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/facebook"
-                android:layout_height="30dp">
-
-            </ImageView>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/login_linkedin"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/linkedin"
-                android:layout_height="30dp">
-
-            </ImageView>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/login_twitter"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/twitter"
-                android:layout_height="30dp">
-
-            </ImageView>
-
-        </RelativeLayout>
-
-    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:text="Sign-up"
@@ -199,7 +88,7 @@
         android:id="@+id/login_signup"
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:textColor="@color/grey"
+        android:textColor="@color/vfColorText1"
         android:layout_height="wrap_content">
 
     </TextView>
