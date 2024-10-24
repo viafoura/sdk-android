@@ -26,6 +26,7 @@ import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
+import com.viafourasdk.src.model.local.VFCommentsContainerType;
 import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFNewCommentAction;
 import com.viafourasdk.src.model.local.VFSettings;
@@ -54,9 +55,11 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata articleMetadata = new VFArticleMetadata(getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK), getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), getIntent().getStringExtra(IntentKeys.INTENT_STORY_DESC), getIntent().getStringExtra(IntentKeys.INTENT_STORY_PICTUREURL));
 
+        VFCommentsContainerType containerType = null;
         VFNewCommentAction newCommentAction = null;
 
         String newCommentActionType = getIntent().getStringExtra(IntentKeys.INTENT_NEW_COMMENT_ACTION);
+        String containerTypeValue = getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_TYPE);
 
         if(newCommentActionType.equals(VFNewCommentAction.VFNewCommentActionType.create.toString())){
             newCommentAction = new VFNewCommentAction(VFNewCommentAction.VFNewCommentActionType.create);
@@ -66,11 +69,17 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
             newCommentAction = new VFNewCommentAction(VFNewCommentAction.VFNewCommentActionType.edit);
         }
 
+        if(containerTypeValue.equals(VFCommentsContainerType.conversations.toString())){
+            containerType = VFCommentsContainerType.conversations;
+        } else if(containerTypeValue.equals(VFCommentsContainerType.reviews.toString())) {
+            containerType = VFCommentsContainerType.reviews;
+        }
+
         if(getIntent().getStringExtra(IntentKeys.INTENT_NEW_COMMENT_CONTENT) != null){
             newCommentAction.content = UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_NEW_COMMENT_CONTENT));
         }
 
-        VFNewCommentFragment newCommentFragment = VFNewCommentFragment.newInstance(newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings);
+        VFNewCommentFragment newCommentFragment = VFNewCommentFragment.newInstance(newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings, null, containerType);
         newCommentFragment.setActionCallback(this);
         newCommentFragment.setCustomUICallback(this);
         newCommentFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);

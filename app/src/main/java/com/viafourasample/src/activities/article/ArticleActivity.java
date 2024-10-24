@@ -234,6 +234,7 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
             intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, articleViewModel.getStory().getContainerId());
             intent.putExtra(IntentKeys.INTENT_STORY_LINK, articleViewModel.getStory().getLink());
             intent.putExtra(IntentKeys.INTENT_STORY_TITLE, articleViewModel.getStory().getTitle());
+            intent.putExtra(IntentKeys.INTENT_CONTAINER_TYPE, articleViewModel.getStory().getStoryType().toString());
             intent.putExtra(IntentKeys.INTENT_NEW_COMMENT_ACTION, action.getNewCommentAction().type.toString());
             if(action.getNewCommentAction().content != null){
                 intent.putExtra(IntentKeys.INTENT_NEW_COMMENT_CONTENT, action.getNewCommentAction().content.toString());

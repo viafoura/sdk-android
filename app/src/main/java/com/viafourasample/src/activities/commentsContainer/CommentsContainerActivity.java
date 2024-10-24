@@ -84,6 +84,7 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
             intent.putExtra(IntentKeys.INTENT_STORY_LINK, commentsContainerViewModel.getStory().getLink());
             intent.putExtra(IntentKeys.INTENT_STORY_TITLE, commentsContainerViewModel.getStory().getTitle());
             intent.putExtra(IntentKeys.INTENT_NEW_COMMENT_ACTION, action.getNewCommentAction().type.toString());
+            intent.putExtra(IntentKeys.INTENT_CONTAINER_TYPE, commentsContainerViewModel.getStory().getStoryType().toString());
             if(action.getNewCommentAction().content != null){
                 intent.putExtra(IntentKeys.INTENT_NEW_COMMENT_CONTENT, action.getNewCommentAction().content.toString());
             }
