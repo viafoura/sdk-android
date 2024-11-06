@@ -24,6 +24,7 @@ import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragment;
+import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragmentBuilder;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
 import com.viafourasdk.src.interfaces.VFLoginInterface;
@@ -66,7 +67,7 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
 
     private void addCommentsFragment() {
         VFArticleMetadata articleMetadata = new VFArticleMetadata(commentsContainerViewModel.getStory().getLink(), commentsContainerViewModel.getStory().getTitle(), commentsContainerViewModel.getStory().getDescription(), commentsContainerViewModel.getStory().getPictureUrl());
-        VFPreviewCommentsFragment previewCommentsFragment = VFPreviewCommentsFragment.newInstance(commentsContainerViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings, 10, VFSortType.newest);
+        VFPreviewCommentsFragment previewCommentsFragment = new VFPreviewCommentsFragmentBuilder(commentsContainerViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings).build();
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.comments_container, previewCommentsFragment, TAG_COMMENTS_FRAGMENT);

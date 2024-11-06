@@ -55,7 +55,7 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata articleMetadata = new VFArticleMetadata(getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK), getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), getIntent().getStringExtra(IntentKeys.INTENT_STORY_DESC), getIntent().getStringExtra(IntentKeys.INTENT_STORY_PICTUREURL));
 
-        VFCommentsContainerType containerType = null;
+        VFCommentsContainerType containerType = VFCommentsContainerType.conversations;
         VFNewCommentAction newCommentAction = null;
 
         String newCommentActionType = getIntent().getStringExtra(IntentKeys.INTENT_NEW_COMMENT_ACTION);
