@@ -1,28 +1,23 @@
 package com.viafourasample.src.activities.profile;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.work.impl.model.Preference;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.article.ArticleActivity;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
-import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.profile.VFProfileFragment;
+import com.viafourasdk.src.fragments.profile.VFProfileFragmentBuilder;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
-import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFColors;
@@ -32,10 +27,9 @@ import com.viafourasdk.src.model.local.VFProfilePresentationType;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
 
-import java.net.MalformedURLException;
 import java.util.UUID;
 
-public class ProfileActivity extends AppCompatActivity implements VFActionsInterface, VFCustomUIInterface, VFLoginInterface {
+public class ProfileActivity extends AppCompatActivity implements VFActionsInterface, VFCustomUIInterface {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,19 +55,13 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
                 presentationType = VFProfilePresentationType.feed;
             }
         }
-        VFProfileFragment profileFragment = VFProfileFragment.newInstance(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_USER_UUID)), presentationType, this, vfSettings);
+        VFProfileFragment profileFragment = new VFProfileFragmentBuilder(UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_USER_UUID)), presentationType, vfSettings).build();
         profileFragment.setActionCallback(this);
         profileFragment.setCustomUICallback(this);
         profileFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.profile_container, profileFragment);
         ft.commit();
-    }
-
-    @Override
-    public void startLogin() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -101,6 +89,9 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
                 intent.putExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID, action.getNotificationPresentationAction().contentUUID.toString());
                 startActivity(intent);
             }
+        } else if(actionType == VFActionType.authPressed){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         }
     }
 

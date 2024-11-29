@@ -1,10 +1,7 @@
 package com.viafourasample.src.activities.newcomment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,11 +14,10 @@ import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
-import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.newcomment.VFNewCommentFragment;
+import com.viafourasdk.src.fragments.newcomment.VFNewCommentFragmentBuilder;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
-import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
@@ -32,11 +28,9 @@ import com.viafourasdk.src.model.local.VFNewCommentAction;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.UUID;
 
-public class NewCommentActivity extends AppCompatActivity implements VFActionsInterface, VFCustomUIInterface, VFLoginInterface {
+public class NewCommentActivity extends AppCompatActivity implements VFActionsInterface, VFCustomUIInterface {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,19 +73,15 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
             newCommentAction.content = UUID.fromString(getIntent().getStringExtra(IntentKeys.INTENT_NEW_COMMENT_CONTENT));
         }
 
-        VFNewCommentFragment newCommentFragment = VFNewCommentFragment.newInstance(newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, this, vfSettings, null, containerType);
+        VFNewCommentFragment newCommentFragment = new VFNewCommentFragmentBuilder(newCommentAction, getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), articleMetadata, vfSettings)
+                .build();
+
         newCommentFragment.setActionCallback(this);
         newCommentFragment.setCustomUICallback(this);
         newCommentFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.new_comment_container, newCommentFragment);
         ft.commit();
-    }
-
-    @Override
-    public void startLogin() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -107,6 +97,9 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
     public void onNewAction(VFActionType actionType, VFActionData action) {
         if(actionType == VFActionType.closeNewCommentPressed){
             onBackPressed();
+        } else if(actionType == VFActionType.authPressed){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         }
     }
 

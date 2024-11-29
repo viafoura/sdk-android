@@ -4,26 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.work.impl.model.Preference;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -33,17 +27,14 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.commentsContainer.CommentsContainerActivity;
 import com.viafourasample.src.activities.login.LoginActivity;
@@ -56,34 +47,26 @@ import com.viafourasample.src.model.Story;
 import com.viafourasdk.src.fragments.base.VFFragment;
 import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragment;
 import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragmentBuilder;
-import com.viafourasdk.src.fragments.trending.VFVerticalTrendingFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFAdInterface;
 import com.viafourasdk.src.interfaces.VFContentScrollPositionInterface;
 import com.viafourasdk.src.interfaces.VFCustomUIInterface;
 import com.viafourasdk.src.interfaces.VFLayoutInterface;
-import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCommentsContainerType;
 import com.viafourasdk.src.model.local.VFCustomViewType;
-import com.viafourasdk.src.model.local.VFDefaultColors;
-import com.viafourasdk.src.model.local.VFFonts;
 import com.viafourasdk.src.model.local.VFNotificationPresentationAction;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFSortType;
 import com.viafourasdk.src.model.local.VFTheme;
-import com.viafourasdk.src.model.local.VFTrendingSortType;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.UUID;
 
-public class ArticleActivity extends AppCompatActivity implements VFLoginInterface, VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface, VFContentScrollPositionInterface {
+public class ArticleActivity extends AppCompatActivity implements VFCustomUIInterface, VFActionsInterface, VFAdInterface, VFLayoutInterface, VFContentScrollPositionInterface {
 
     private ArticleViewModel articleViewModel;
     private ScrollView scrollView;
@@ -195,7 +178,10 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         }
 
         VFArticleMetadata articleMetadata = new VFArticleMetadata(articleViewModel.getStory().getLink(), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), articleViewModel.getStory().getPictureUrl());
-        VFPreviewCommentsFragment previewCommentsFragment = new VFPreviewCommentsFragmentBuilder(articleViewModel.getStory().getContainerId(), articleMetadata, this, vfSettings).paginationSize(10).sortType(VFSortType.newest).replySize(0).featuredTabThreshold(0).containerType(articleViewModel.getStory().getStoryType() == Story.StoryType.comments ? VFCommentsContainerType.conversations : VFCommentsContainerType.reviews).build();
+        VFPreviewCommentsFragment previewCommentsFragment = new VFPreviewCommentsFragmentBuilder(articleViewModel.getStory().getContainerId(), articleMetadata, vfSettings)
+                .paginationSize(10)
+                .sortType(VFSortType.newest)
+                .build();
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.article_comments_container, previewCommentsFragment, TAG_COMMENTS_FRAGMENT);
@@ -220,12 +206,6 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void startLogin() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -264,6 +244,9 @@ public class ArticleActivity extends AppCompatActivity implements VFLoginInterfa
         } else if(actionType == VFActionType.trendingArticlePressed){
             Intent intent = new Intent(getApplicationContext(), ArticleActivity.class);
             intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, action.getTrendingPressedAction().containerId);
+            startActivity(intent);
+        } else if(actionType == VFActionType.authPressed){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         }
     }
