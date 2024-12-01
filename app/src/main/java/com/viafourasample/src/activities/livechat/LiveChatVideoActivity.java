@@ -16,11 +16,9 @@ import android.widget.VideoView;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;
-import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasdk.src.fragments.livechat.VFLiveChatFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
-import com.viafourasdk.src.interfaces.VFLoginInterface;
 import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
@@ -28,10 +26,7 @@ import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-public class LiveChatVideoActivity extends AppCompatActivity implements VFLoginInterface, VFActionsInterface {
+public class LiveChatVideoActivity extends AppCompatActivity implements VFActionsInterface {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +73,7 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFLoginI
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.TRANSPARENT);
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata metadata = new VFArticleMetadata("https://viafoura-mobile-demo.vercel.app", getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), "", "https://viafoura-mobile-demo.vercel.app");
-        VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), metadata, this, vfSettings);
+        VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), metadata, vfSettings);
         liveChatFragment.setTheme(VFTheme.dark);
         liveChatFragment.setActionCallback(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -97,16 +92,13 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFLoginI
     }
 
     @Override
-    public void startLogin() {
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-    }
-
-    @Override
     public void onNewAction(VFActionType actionType, VFActionData action) {
         if(actionType == VFActionType.openProfilePressed){
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             intent.putExtra(IntentKeys.INTENT_USER_UUID, action.getOpenProfileAction().userUUID.toString());
             startActivity(intent);
+        } else if(actionType == VFActionType.authPressed){
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
     }
 }

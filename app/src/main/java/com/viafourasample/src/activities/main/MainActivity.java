@@ -2,12 +2,10 @@ package com.viafourasample.src.activities.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +18,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;
@@ -31,7 +28,9 @@ import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.interfaces.NotificationBellClickedInterface;
-import com.viafourasdk.src.interfaces.VFLoginInterface;
+import com.viafourasdk.src.interfaces.VFActionsInterface;
+import com.viafourasdk.src.model.local.VFActionData;
+import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
@@ -112,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        bellView.setLoginInterface(new VFLoginInterface() {
+        bellView.setActionCallback(new VFActionsInterface() {
             @Override
-            public void startLogin() {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            public void onNewAction(VFActionType actionType, VFActionData action) {
+                if(actionType == VFActionType.authPressed){
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
             }
         });
     }
