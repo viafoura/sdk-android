@@ -70,7 +70,7 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFAction
     }
 
     private void setupLiveChatWidget(){
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf), Color.TRANSPARENT);
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata metadata = new VFArticleMetadata("https://viafoura-mobile-demo.vercel.app", getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), "", "https://viafoura-mobile-demo.vercel.app");
         VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), metadata, vfSettings);
