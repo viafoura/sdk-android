@@ -1,9 +1,14 @@
 package com.viafourasample.src.activities.profile;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -97,6 +102,13 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
 
     @Override
     public void customizeView(VFTheme theme, VFCustomViewType customViewType, View view) {
-
+        if(customViewType == VFCustomViewType.profileFeedTabText){
+            Boolean isViewActive = (Boolean) ((ViewGroup) view.getParent()).getTag();
+            ((TextView) view).setTextColor(isViewActive ? Color.RED : Color.BLACK);
+        } else if(customViewType == VFCustomViewType.profileCommunityTabText){
+            Boolean isViewActive = (Boolean) ((ViewGroup) view.getParent()).getTag();
+        } else if(customViewType == VFCustomViewType.profileMainTabText){
+            Boolean isViewActive = (Boolean) ((ViewGroup) view.getParent()).getTag();
+        }
     }
 }
