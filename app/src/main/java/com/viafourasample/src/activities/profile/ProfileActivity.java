@@ -102,13 +102,6 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
 
     @Override
     public void customizeView(VFTheme theme, VFCustomViewType customViewType, View view) {
-        if(customViewType == VFCustomViewType.profileFeedTabText){
-            Boolean isViewActive = (Boolean) ((ViewGroup) view.getParent()).getTag();
-            ((TextView) view).setTextColor(isViewActive ? Color.RED : Color.BLACK);
-        } else if(customViewType == VFCustomViewType.profileCommunityTabText){
-            Boolean isViewActive = (Boolean) ((ViewGroup) view.getParent()).getTag();
-        } else if(customViewType == VFCustomViewType.profileMainTabText){
-            Boolean isViewActive = (Boolean) ((ViewGroup) view.getParent()).getTag();
-        }
+
     }
 }
