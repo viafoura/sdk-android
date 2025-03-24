@@ -34,7 +34,7 @@ import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
-import com.viafourasdk.src.services.auth.AuthService;
+import com.viafourasdk.src.services.auth.VFAuthService;
 import com.viafourasdk.src.view.notificationBell.VFNotificationBellView;
 
 import java.util.UUID;
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_main_auth){
-            viewModel.getAuthState(new AuthService.UserLoginStatusCallback() {
+            viewModel.getAuthState(new VFAuthService.UserLoginStatusCallback() {
                 @Override
                 public void onSuccess(boolean userIsLoggedIn, String userUUID) {
                     if(userIsLoggedIn){
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPreferences.getBoolean(SettingKeys.showNotificationBellTopBar, false)) {
             return;
         }
-        viewModel.getAuthState(new AuthService.UserLoginStatusCallback() {
+        viewModel.getAuthState(new VFAuthService.UserLoginStatusCallback() {
             @Override
             public void onSuccess(boolean userIsLoggedIn, String userUUID) {
                 if(toolbarMenu != null){
