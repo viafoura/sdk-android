@@ -51,6 +51,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.onesignal:OneSignal:[5.0.0, 5.99.99]'
 
-    implementation 'com.viafoura:android:2.0.31'
+    implementation 'com.viafoura:android:2.0.32'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 }
