@@ -286,7 +286,7 @@ public class ArticleActivity extends AppCompatActivity implements VFCustomUIInte
     public ViewGroup generateAd(VFFragment fragment, int adPosition) {
         if(adPosition % 2 == 0){
             RelativeLayout adContainer = new RelativeLayout(this);
-            AdView adView = new AdView(this);
+            AdView adView = new AdView(getApplicationContext());
             adView.setAdSize(AdSize.BANNER);
             adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 
