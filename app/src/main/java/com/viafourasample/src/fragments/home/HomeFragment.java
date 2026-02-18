@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.article.ArticleActivity;
+import com.viafourasample.src.compose.ComposeFlowActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.SettingKeys;
@@ -75,7 +76,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String containerID = input.getText().toString().trim();
-                Intent intent = new Intent(requireContext(), ArticleActivity.class);
+                Class clazz = preferences.getBoolean(SettingKeys.enableComposeSampleFlow, false) ? ComposeFlowActivity.class : ArticleActivity.class;
+                Intent intent = new Intent(requireContext(), clazz);
                 intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, containerID);
                 startActivity(intent);
             }
@@ -149,7 +151,8 @@ public class HomeFragment extends Fragment {
             holder.itemView.findViewById(R.id.row_article_holder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(requireContext(), ArticleActivity.class);
+                    Class clazz = preferences.getBoolean(SettingKeys.enableComposeSampleFlow, false) ? ComposeFlowActivity.class : ArticleActivity.class;
+                    Intent intent = new Intent(requireContext(), clazz);
                     intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, story.getContainerId());
                     startActivity(intent);
                 }

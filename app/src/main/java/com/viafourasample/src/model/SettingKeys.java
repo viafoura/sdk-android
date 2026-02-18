@@ -5,4 +5,5 @@ public class SettingKeys {
     public static String darkMode = "darkMode";
     public static String customContainerIDs = "customContainerIDs";
     public static String showNotificationBellTopBar = "showNotificationBellTopBar";
+    public static String enableComposeSampleFlow = "enableComposeSampleFlow";
 }

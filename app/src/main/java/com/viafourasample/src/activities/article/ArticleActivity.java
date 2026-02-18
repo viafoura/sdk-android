@@ -180,6 +180,7 @@ public class ArticleActivity extends AppCompatActivity implements VFCustomUIInte
         VFArticleMetadata articleMetadata = new VFArticleMetadata(articleViewModel.getStory().getLink(), articleViewModel.getStory().getTitle(), articleViewModel.getStory().getDescription(), articleViewModel.getStory().getPictureUrl());
         VFPreviewCommentsFragment previewCommentsFragment = new VFPreviewCommentsFragmentBuilder(articleViewModel.getStory().getContainerId(), articleMetadata, vfSettings)
                 .paginationSize(10)
+                .replySize(10)
                 .sortType(VFSortType.newest)
                 .build();
         previewCommentsFragment.setTheme(ColorManager.isDarkMode(getApplicationContext()) ? VFTheme.dark : VFTheme.light);

@@ -11,6 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ViafouraSDK">
         <activity
+            android:name="com.viafourasample.src.compose.ComposeFlowActivity"
+            android:configChanges="screenSize|orientation|screenLayout"
+            android:theme="@style/Theme.NoActionBar.ViafouraSDK"
+            android:exported="false" />
+        <activity
             android:name="com.viafourasample.src.activities.livechat.LiveChatVideoActivity"
             android:exported="false" />
         <activity

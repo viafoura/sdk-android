@@ -14,5 +14,6 @@ public class SettingsViewModel {
         settingList.add(new Setting("Dark mode", SettingKeys.darkMode));
         settingList.add(new Setting("Custom container IDs", SettingKeys.customContainerIDs));
         settingList.add(new Setting("Show notification bell on top bar", SettingKeys.showNotificationBellTopBar));
+        settingList.add(new Setting("Enable Compose sample flow", SettingKeys.enableComposeSampleFlow));
     }
 }
