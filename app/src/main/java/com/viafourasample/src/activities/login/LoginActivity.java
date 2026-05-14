@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     private LoginViewModel viewModel = new LoginViewModel();
 
     private static int SIGNUP_RESULT_CODE = 1;
-    private static int LOGINRADIUS_RESULT_CODE = 2;
 
     private TextInputEditText emailText, passwordText;
     private TextInputLayout emailLayout, passwordLayout;
@@ -113,23 +112,6 @@ public class LoginActivity extends AppCompatActivity {
         if(requestCode == SIGNUP_RESULT_CODE){
             if(resultCode == Activity.RESULT_OK){
                 onBackPressed();
-            }
-        } else if(requestCode == LOGINRADIUS_RESULT_CODE){
-            if (data != null){
-                String accessToken = data.getStringExtra("accesstoken");
-                String provider = data.getStringExtra("provider");
-
-                viewModel.socialLogin(accessToken, new LoginViewModel.SocialLoginCallback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
             }
         }
     }
