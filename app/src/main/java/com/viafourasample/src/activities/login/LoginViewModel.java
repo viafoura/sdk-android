@@ -3,7 +3,6 @@ package com.viafourasample.src.activities.login;
 import com.onesignal.OneSignal;
 import com.viafourasdk.src.ViafouraSDK;
 import com.viafourasdk.src.model.network.authentication.login.LoginResponse;
-import com.viafourasdk.src.model.network.authentication.socialLogin.SocialLoginResponse;
 import com.viafourasdk.src.model.network.error.NetworkError;
 import com.viafourasdk.src.services.auth.VFAuthService;
 
@@ -49,22 +48,4 @@ public class LoginViewModel {
         void onError();
     }
 
-    public void socialLogin(String token, SocialLoginCallback socialLoginCallback){
-        auth.socialLogin(token, new VFAuthService.SocialLoginCallback() {
-            @Override
-            public void onSuccess(SocialLoginResponse loginResponse) {
-                socialLoginCallback.onSuccess();
-            }
-
-            @Override
-            public void onError(NetworkError err) {
-                socialLoginCallback.onError();
-            }
-        });
-    }
-
-    interface SocialLoginCallback {
-        void onSuccess();
-        void onError();
-    }
 }
