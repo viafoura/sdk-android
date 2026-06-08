@@ -15,15 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.activities.settings.SettingsActivity;
 import com.viafourasample.src.fragments.home.HomeFragment;
-import com.viafourasample.src.fragments.livechat.LiveChatFragment;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.SettingKeys;
@@ -42,7 +39,7 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel = new MainViewModel();
     private Menu toolbarMenu;
-    private Fragment homeFragment, liveChatFragment;
+    private Fragment homeFragment;
     private SharedPreferences sharedPreferences;
     private BottomNavigationView bottomNavigationView;
 
@@ -52,24 +49,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         homeFragment = new HomeFragment();
-        liveChatFragment = new LiveChatFragment();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        setCurrentFragment(true);
+        setCurrentFragment();
 
         bottomNavigationView = ((BottomNavigationView) findViewById(R.id.home_bottom_navigation));
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.main_chat) {
-                    setCurrentFragment(false);
-                } else if(item.getItemId() == R.id.main_home) {
-                    setCurrentFragment(true);
-                }
-                return false;
-            }
-        });
 
         final Drawable upArrow = getResources().getDrawable(R.drawable.icon_settings);
         upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
@@ -121,17 +106,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setCurrentFragment(boolean isHome){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if(isHome){
-            getSupportActionBar().setTitle(getResources().getString(R.string.home));
-            ft.replace(R.id.home_fragment_holder, homeFragment);
-        } else{
-            getSupportActionBar().setTitle("Live Chat");
-            ft.replace(R.id.home_fragment_holder, liveChatFragment);
-        }
-
-        ft.commit();
+    private void setCurrentFragment(){
+        getSupportActionBar().setTitle(getResources().getString(R.string.home));
+        getSupportFragmentManager().beginTransaction()
+            .replace(R.id.home_fragment_holder, homeFragment)
+            .commit();
     }
 
     @Override

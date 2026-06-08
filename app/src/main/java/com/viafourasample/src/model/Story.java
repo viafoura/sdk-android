@@ -12,7 +12,7 @@ public class Story {
 
 
     public enum StoryType {
-        comments, reviews
+        comments, reviews, liveQuestions, liveChat
     }
 
     public Story(String pictureUrl, String title, String description, String author, String category, String link, String containerId, StoryType storyType) {
