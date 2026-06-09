@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
+import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasdk.src.fragments.livequestions.VFLiveQuestionsFragment;
@@ -72,7 +73,11 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
 
     @Override
     public void onNewAction(VFActionType actionType, VFActionData action) {
-        if (actionType == VFActionType.authPressed) {
+        if (actionType == VFActionType.openProfilePressed) {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            intent.putExtra(IntentKeys.INTENT_USER_UUID, action.getOpenProfileAction().userUUID.toString());
+            startActivity(intent);
+        } else if (actionType == VFActionType.authPressed) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
     }
