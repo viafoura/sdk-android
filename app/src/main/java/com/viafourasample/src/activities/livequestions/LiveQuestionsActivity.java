@@ -79,6 +79,8 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
 
         final EditText input = new EditText(this);
         input.setText(containerId);
+        int padding = (int) (16 * getResources().getDisplayMetrics().density);
+        input.setPadding(padding, input.getPaddingTop(), padding, input.getPaddingBottom());
         builder.setView(input);
 
         builder.setPositiveButton("Accept", (dialog, which) -> {
