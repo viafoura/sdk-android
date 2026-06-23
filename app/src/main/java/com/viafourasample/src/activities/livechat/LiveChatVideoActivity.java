@@ -1,5 +1,6 @@
 package com.viafourasample.src.activities.livechat;
 
+import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -17,6 +18,7 @@ import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.livechat.VFLiveChatFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.model.local.VFActionData;
@@ -72,7 +74,9 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFAction
     private void setupLiveChatWidget(){
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
         VFSettings vfSettings = new VFSettings(colors);
-        VFArticleMetadata metadata = new VFArticleMetadata("https://viafoura-mobile-demo.vercel.app", getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), "", "https://viafoura-mobile-demo.vercel.app");
+        String siteDomain = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingKeys.siteDomain, SettingKeys.DEFAULT_SITE_DOMAIN);
+        String siteUrl = "https://" + siteDomain;
+        VFArticleMetadata metadata = new VFArticleMetadata(siteUrl, getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), "", siteUrl);
         VFLiveChatFragment liveChatFragment = VFLiveChatFragment.newInstance(getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID), metadata, vfSettings);
         liveChatFragment.setTheme(VFTheme.dark);
         liveChatFragment.setActionCallback(this);
