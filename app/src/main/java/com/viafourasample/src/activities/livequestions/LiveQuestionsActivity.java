@@ -2,6 +2,7 @@ package com.viafourasample.src.activities.livequestions;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.livequestions.VFLiveQuestionsFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.model.local.VFActionData;
@@ -50,11 +52,13 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
             ContextCompat.getColor(getApplicationContext(), R.color.colorVf)
         );
         VFSettings vfSettings = new VFSettings(colors);
+        String siteDomain = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingKeys.siteDomain, SettingKeys.DEFAULT_SITE_DOMAIN);
+        String siteUrl = "https://" + siteDomain;
         VFArticleMetadata metadata = new VFArticleMetadata(
-            "https://viafoura-mobile-demo.vercel.app",
+            siteUrl,
             title != null ? title : "Live Questions",
             "",
-            "https://viafoura-mobile-demo.vercel.app"
+            siteUrl
         );
 
         VFLiveQuestionsFragment fragment = VFLiveQuestionsFragment.newInstance(
