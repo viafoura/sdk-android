@@ -19,15 +19,17 @@ import com.viafourasample.src.activities.profile.ProfileActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.SettingKeys;
+import com.viafourasdk.src.fragments.base.VFFragment;
 import com.viafourasdk.src.fragments.livequestions.VFLiveQuestionsFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
+import com.viafourasdk.src.interfaces.VFLayoutInterface;
 import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFSettings;
 
-public class LiveQuestionsActivity extends AppCompatActivity implements VFActionsInterface {
+public class LiveQuestionsActivity extends AppCompatActivity implements VFActionsInterface, VFLayoutInterface {
 
     private String containerId;
     private String title;
@@ -70,6 +72,7 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
             null
         );
         fragment.setActionsInterface(this);
+        fragment.setLayoutCallback(this);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.live_questions_container, fragment);
@@ -115,6 +118,11 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void containerHeightUpdated(VFFragment fragment, String containerId, int height) {
+        // Hook available for hosts that need the height (e.g. ads/analytics).
     }
 
     @Override
