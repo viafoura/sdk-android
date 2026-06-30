@@ -8,10 +8,4 @@
         android:id="@+id/main_home"
         android:icon="@drawable/icon_home"
         app:showAsAction="ifRoom" />
-    <item
-        android:enabled="true"
-        android:title="Live chat"
-        android:icon="@drawable/icon_message"
-        android:id="@+id/main_chat"
-        app:showAsAction="ifRoom" />
 </menu>

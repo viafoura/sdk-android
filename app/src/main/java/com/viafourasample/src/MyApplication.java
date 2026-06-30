@@ -1,8 +1,10 @@
 package com.viafourasample.src;
 
 import android.app.Application;
+import android.preference.PreferenceManager;
+
 import com.google.android.gms.ads.MobileAds;
-import com.onesignal.OneSignal;
+import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.ViafouraSDK;
 
 public class MyApplication extends Application {
@@ -19,9 +21,12 @@ public class MyApplication extends Application {
 
         MobileAds.initialize(this);
 
-        OneSignal.initWithContext(this, "8add46ba-1535-4c77-8c97-4faccd2cd7e5");
+        String siteUUID = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(SettingKeys.siteUUID, SettingKeys.DEFAULT_SITE_UUID);
+        String siteDomain = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(SettingKeys.siteDomain, SettingKeys.DEFAULT_SITE_DOMAIN);
 
-        ViafouraSDK.initialize(getApplicationContext(), "00000000-0000-4000-8000-c8cddfd7b365", "viafoura-mobile-demo.vercel.app");
+        ViafouraSDK.initialize(getApplicationContext(), siteUUID, siteDomain);
         ViafouraSDK.isLoggingEnabled = true;
     }
 }

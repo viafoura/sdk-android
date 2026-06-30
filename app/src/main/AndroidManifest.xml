@@ -14,11 +14,11 @@
             android:name="com.viafourasample.src.activities.livechat.LiveChatVideoActivity"
             android:exported="false" />
         <activity
-            android:name="com.viafourasample.src.activities.commentsContainer.CommentsContainerActivity"
-            android:configChanges="screenSize|orientation|screenLayout"
+            android:name="com.viafourasample.src.activities.livechat.LiveChatActivity"
             android:exported="false" />
         <activity
-            android:name="com.viafourasample.src.activities.livechat.LiveChatActivity"
+            android:name="com.viafourasample.src.activities.commentsContainer.CommentsContainerActivity"
+            android:configChanges="screenSize|orientation|screenLayout"
             android:exported="false" />
         <activity
             android:name="com.viafourasample.src.activities.settings.SettingsActivity"
@@ -41,6 +41,9 @@
             android:exported="false" />
         <activity
             android:name="com.viafourasample.src.activities.main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.viafourasample.src.activities.livequestions.LiveQuestionsActivity"
             android:exported="false" />
         <activity
             android:name="com.viafourasample.src.activities.splash.SplashActivity"
