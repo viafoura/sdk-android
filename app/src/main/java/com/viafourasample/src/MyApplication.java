@@ -4,7 +4,6 @@ import android.app.Application;
 import android.preference.PreferenceManager;
 
 import com.google.android.gms.ads.MobileAds;
-import com.onesignal.OneSignal;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.ViafouraSDK;
 
@@ -21,8 +20,6 @@ public class MyApplication extends Application {
         singleton = this;
 
         MobileAds.initialize(this);
-
-        OneSignal.initWithContext(this, "8add46ba-1535-4c77-8c97-4faccd2cd7e5");
 
         String siteUUID = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(SettingKeys.siteUUID, SettingKeys.DEFAULT_SITE_UUID);
