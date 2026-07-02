@@ -56,7 +56,10 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
-    class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder> {
+    class ArticleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+        private static final int VIEW_TYPE_ARTICLE = 0;
+        private static final int VIEW_TYPE_LIVE_QUESTIONS = 1;
 
         private final List<Story> stories;
 
@@ -64,12 +67,12 @@ public class HomeFragment extends Fragment {
             this.stories = stories;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+        class ArticleViewHolder extends RecyclerView.ViewHolder {
             ImageView image;
             TextView title, desc, category, author;
             View holder;
 
-            ViewHolder(View itemView) {
+            ArticleViewHolder(View itemView) {
                 super(itemView);
                 holder = itemView.findViewById(R.id.row_article_holder);
                 image = itemView.findViewById(R.id.row_article_image);
@@ -80,24 +83,59 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_article, parent, false);
-            return new ViewHolder(view);
+        class LiveQuestionsViewHolder extends RecyclerView.ViewHolder {
+            ImageView image;
+            TextView title;
+            View holder;
+
+            LiveQuestionsViewHolder(View itemView) {
+                super(itemView);
+                holder = itemView.findViewById(R.id.row_livechat_holder);
+                image = itemView.findViewById(R.id.row_livechat_image);
+                title = itemView.findViewById(R.id.row_livechat_text);
+            }
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public int getItemViewType(int position) {
+            return stories.get(position).getStoryType() == Story.StoryType.liveQuestions
+                    ? VIEW_TYPE_LIVE_QUESTIONS
+                    : VIEW_TYPE_ARTICLE;
+        }
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            if (viewType == VIEW_TYPE_LIVE_QUESTIONS) {
+                View view = inflater.inflate(R.layout.row_livechat, parent, false);
+                return new LiveQuestionsViewHolder(view);
+            }
+            View view = inflater.inflate(R.layout.row_article, parent, false);
+            return new ArticleViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             Story story = stories.get(position);
-            holder.title.setText(story.getTitle());
-            holder.desc.setText(story.getDescription());
-            holder.category.setText(story.getCategory());
-            holder.author.setText(story.getAuthor());
-            Glide.with(holder.image.getContext())
+            if (holder instanceof LiveQuestionsViewHolder) {
+                LiveQuestionsViewHolder liveQuestionsHolder = (LiveQuestionsViewHolder) holder;
+                liveQuestionsHolder.title.setText(story.getTitle());
+                liveQuestionsHolder.image.setImageResource(R.drawable.icon_question);
+                liveQuestionsHolder.image.setVisibility(View.VISIBLE);
+                liveQuestionsHolder.holder.setOnClickListener(v -> onArticleClicked(story));
+                return;
+            }
+
+            ArticleViewHolder articleHolder = (ArticleViewHolder) holder;
+            articleHolder.title.setText(story.getTitle());
+            articleHolder.desc.setText(story.getDescription());
+            articleHolder.category.setText(story.getCategory());
+            articleHolder.author.setText(story.getAuthor());
+            Glide.with(articleHolder.image.getContext())
                     .load(story.getPictureUrl())
-                    .into(holder.image);
-            holder.holder.setOnClickListener(v -> onArticleClicked(story));
+                    .into(articleHolder.image);
+            articleHolder.holder.setOnClickListener(v -> onArticleClicked(story));
         }
 
         @Override
