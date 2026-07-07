@@ -51,6 +51,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
 
-    implementation 'com.viafoura:android:2.0.91'
+    implementation 'com.viafoura:android:2.0.92'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 }
