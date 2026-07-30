@@ -72,7 +72,7 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFAction
     }
 
     private void setupLiveChatWidget(){
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight));
         VFSettings vfSettings = new VFSettings(colors);
         String siteDomain = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingKeys.siteDomain, SettingKeys.DEFAULT_SITE_DOMAIN);
         String siteUrl = "https://" + siteDomain;

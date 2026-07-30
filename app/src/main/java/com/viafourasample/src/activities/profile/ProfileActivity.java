@@ -31,6 +31,7 @@ import com.viafourasdk.src.model.local.VFNotificationPresentationAction;
 import com.viafourasdk.src.model.local.VFProfilePresentationType;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
+import com.viafourasdk.src.view.VFUserAvatarView;
 
 import java.util.UUID;
 
@@ -49,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
     }
 
     private void addProfileFragment() {
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight));
         VFSettings vfSettings = new VFSettings(colors);
         VFProfilePresentationType presentationType = VFProfilePresentationType.profile;
         if(getIntent().getStringExtra(IntentKeys.INTENT_USER_PRESENTATION_TYPE) != null){
@@ -102,6 +103,12 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
 
     @Override
     public void customizeView(VFTheme theme, VFCustomViewType customViewType, View view) {
-
+        switch (customViewType){
+            case profileUserAvatar:
+                if(theme == VFTheme.dark){
+                    ((VFUserAvatarView) view).setInitialsTextColor(Color.GREEN);
+                }
+                break;
+        }
     }
 }

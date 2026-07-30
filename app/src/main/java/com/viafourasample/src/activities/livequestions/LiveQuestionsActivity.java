@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -33,6 +34,7 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
 
     private String containerId;
     private String title;
+    private String focusedContentUUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,8 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
 
     private void loadFragment(String id) {
         VFColors colors = new VFColors(
-            ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark),
-            ContextCompat.getColor(getApplicationContext(), R.color.colorVf)
+            ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary),
+            ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight)
         );
         VFSettings vfSettings = new VFSettings(colors);
         String siteDomain = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingKeys.siteDomain, SettingKeys.DEFAULT_SITE_DOMAIN);
@@ -67,9 +69,10 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
             id != null ? id : "test-livequestions",
             metadata,
             vfSettings,
-            20,
+            8,
             2,
-            null
+            null,
+            focusedContentUUID
         );
         fragment.setActionsInterface(this);
         fragment.setLayoutCallback(this);
@@ -85,15 +88,27 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
         builder.setMessage("Enter a container ID for Live Q&A");
 
         final EditText input = new EditText(this);
+        input.setHint("ID");
         input.setText(containerId);
+
+        final EditText focusedInput = new EditText(this);
+        focusedInput.setHint("focusedContentUUID (optional)");
+        focusedInput.setText(focusedContentUUID);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
         int padding = (int) (16 * getResources().getDisplayMetrics().density);
-        input.setPadding(padding, input.getPaddingTop(), padding, input.getPaddingBottom());
-        builder.setView(input);
+        layout.setPadding(padding, 0, padding, 0);
+        layout.addView(input);
+        layout.addView(focusedInput);
+        builder.setView(layout);
 
         builder.setPositiveButton("Accept", (dialog, which) -> {
             String newId = input.getText().toString().trim();
             if (!newId.isEmpty()) {
                 containerId = newId;
+                String newFocusedContentUUID = focusedInput.getText().toString().trim();
+                focusedContentUUID = newFocusedContentUUID.isEmpty() ? null : newFocusedContentUUID;
                 loadFragment(containerId);
             }
         });

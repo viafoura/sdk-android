@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNotificationBell(){
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight));
         VFSettings settings = new VFSettings(colors);
 
         VFNotificationBellView bellView;
