@@ -21,6 +21,7 @@ import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.fragments.base.VFFragment;
+import com.viafourasdk.src.fragments.livequestions.VFLiveQuestionsComposerFragment;
 import com.viafourasdk.src.fragments.livequestions.VFLiveQuestionsFragment;
 import com.viafourasdk.src.interfaces.VFActionsInterface;
 import com.viafourasdk.src.interfaces.VFLayoutInterface;
@@ -28,6 +29,7 @@ import com.viafourasdk.src.model.local.VFActionData;
 import com.viafourasdk.src.model.local.VFActionType;
 import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
+import com.viafourasdk.src.model.local.VFNewQuestionAction;
 import com.viafourasdk.src.model.local.VFSettings;
 
 public class LiveQuestionsActivity extends AppCompatActivity implements VFActionsInterface, VFLayoutInterface {
@@ -50,20 +52,29 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void loadFragment(String id) {
+    private VFSettings buildSettings() {
         VFColors colors = new VFColors(
             ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary),
             ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight)
         );
-        VFSettings vfSettings = new VFSettings(colors);
+        return new VFSettings(colors);
+    }
+
+    private VFArticleMetadata buildArticleMetadata() {
         String siteDomain = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(SettingKeys.siteDomain, SettingKeys.DEFAULT_SITE_DOMAIN);
         String siteUrl = "https://" + siteDomain;
-        VFArticleMetadata metadata = new VFArticleMetadata(
-            siteUrl,
+        String articleUrl = siteUrl + "/" + SettingKeys.LIVE_QUESTIONS_ARTICLE_PATH;
+        return new VFArticleMetadata(
+            articleUrl,
             title != null ? title : "Live Questions",
             "",
             siteUrl
         );
+    }
+
+    private void loadFragment(String id) {
+        VFSettings vfSettings = buildSettings();
+        VFArticleMetadata metadata = buildArticleMetadata();
 
         VFLiveQuestionsFragment fragment = VFLiveQuestionsFragment.newInstance(
             id != null ? id : "test-livequestions",
@@ -148,6 +159,23 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
             startActivity(intent);
         } else if (actionType == VFActionType.authPressed) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        } else if (actionType == VFActionType.writeNewQuestionPressed) {
+            presentComposer(action.getNewQuestionAction());
         }
+    }
+
+    private void presentComposer(VFNewQuestionAction newQuestionAction) {
+        if (newQuestionAction == null) {
+            return;
+        }
+
+        VFLiveQuestionsComposerFragment composer = VFLiveQuestionsComposerFragment.newInstance(
+            newQuestionAction,
+            containerId != null ? containerId : "test-livequestions",
+            buildArticleMetadata(),
+            buildSettings()
+        );
+        composer.setActionsInterface(this);
+        composer.show(getSupportFragmentManager(), "composer");
     }
 }
