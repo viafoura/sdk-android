@@ -10,4 +10,5 @@ public class SettingKeys {
 
     public static final String DEFAULT_SITE_UUID = "00000000-0000-4000-8000-c8cddfd7b365";
     public static final String DEFAULT_SITE_DOMAIN = "viafoura-mobile-demo.vercel.app";
+    public static final String LIVE_QUESTIONS_ARTICLE_PATH = "posts/live-q-a-2025";
 }

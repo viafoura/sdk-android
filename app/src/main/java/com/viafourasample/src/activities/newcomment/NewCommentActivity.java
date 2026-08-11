@@ -45,7 +45,7 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
     }
 
     private void addNewCommentsFragment() {
-        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorVfDark), ContextCompat.getColor(getApplicationContext(), R.color.colorVf));
+        VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight));
         VFSettings vfSettings = new VFSettings(colors);
         VFArticleMetadata articleMetadata = new VFArticleMetadata(getIntent().getStringExtra(IntentKeys.INTENT_STORY_LINK), getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE), getIntent().getStringExtra(IntentKeys.INTENT_STORY_DESC), getIntent().getStringExtra(IntentKeys.INTENT_STORY_PICTUREURL));
 
