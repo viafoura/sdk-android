@@ -2,6 +2,7 @@ package com.viafourasample.src.activities.profile;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.viafoura.sampleapp.R;
 import com.viafourasample.src.activities.article.ArticleActivity;
+import com.viafourasample.src.activities.livequestions.LiveQuestionsActivity;
 import com.viafourasample.src.activities.login.LoginActivity;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.IntentKeys;
@@ -32,6 +34,7 @@ import com.viafourasdk.src.model.local.VFProfilePresentationType;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
 import com.viafourasdk.src.view.VFUserAvatarView;
+import com.viafourasample.src.utils.InsetsUtils;
 
 import java.util.UUID;
 
@@ -41,6 +44,8 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        InsetsUtils.applyActionBarInsets(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -94,6 +99,16 @@ public class ProfileActivity extends AppCompatActivity implements VFActionsInter
                 intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, action.getNotificationPresentationAction().containerId.toString());
                 intent.putExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID, action.getNotificationPresentationAction().contentUUID.toString());
                 startActivity(intent);
+            } else if(action.getNotificationPresentationAction().notificationPresentationType == VFNotificationPresentationAction.VFNotificationPresentationType.liveQuestions){
+                Intent intent = new Intent(getApplicationContext(), LiveQuestionsActivity.class);
+                intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, action.getNotificationPresentationAction().containerId);
+                intent.putExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID, action.getNotificationPresentationAction().contentUUID.toString());
+                if(action.getNotificationPresentationAction().articleMetadata != null){
+                    intent.putExtra(IntentKeys.INTENT_STORY_TITLE, action.getNotificationPresentationAction().articleMetadata.getTitle());
+                }
+                startActivity(intent);
+            } else if(action.getNotificationPresentationAction().notificationPresentationType == VFNotificationPresentationAction.VFNotificationPresentationType.url){
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(action.getNotificationPresentationAction().url)));
             }
         } else if(actionType == VFActionType.authPressed){
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

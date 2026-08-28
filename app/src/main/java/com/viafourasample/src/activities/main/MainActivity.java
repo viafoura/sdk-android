@@ -33,6 +33,8 @@ import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
 import com.viafourasdk.src.services.auth.VFAuthService;
 import com.viafourasdk.src.view.notificationBell.VFNotificationBellView;
+import com.viafourasample.src.utils.InsetsUtils;
+import com.viafourasdk.src.utils.VFInsetsUtils;
 
 import java.util.UUID;
 
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        InsetsUtils.applyActionBarInsets(this);
+        VFInsetsUtils.applyBottomInsets(findViewById(R.id.home_bottom_navigation));
 
         homeFragment = new HomeFragment();
 

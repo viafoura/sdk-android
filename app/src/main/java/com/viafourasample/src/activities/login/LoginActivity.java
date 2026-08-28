@@ -29,6 +29,8 @@ import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasample.src.utils.AndroidUtils;
 import com.viafourasdk.src.model.local.VFDefaultColors;
+import com.viafourasample.src.utils.InsetsUtils;
+import com.viafourasdk.src.utils.VFInsetsUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -46,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        InsetsUtils.applyActionBarInsets(this);
+        VFInsetsUtils.applyBottomInsetsWithIme(findViewById(R.id.login_holder));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

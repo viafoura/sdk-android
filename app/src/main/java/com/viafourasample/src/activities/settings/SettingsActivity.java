@@ -26,6 +26,8 @@ import com.viafoura.sampleapp.R;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.Setting;
 import com.viafourasample.src.model.SettingKeys;
+import com.viafourasample.src.utils.InsetsUtils;
+import com.viafourasdk.src.utils.VFInsetsUtils;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -40,6 +42,9 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        InsetsUtils.applyActionBarInsets(this);
+        VFInsetsUtils.applyBottomInsetsToScrollable(findViewById(R.id.settings_list));
 
         getSupportActionBar().setTitle("Settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

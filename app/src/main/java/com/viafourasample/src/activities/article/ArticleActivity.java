@@ -62,6 +62,8 @@ import com.viafourasdk.src.model.local.VFNotificationPresentationAction;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFSortType;
 import com.viafourasdk.src.model.local.VFTheme;
+import com.viafourasample.src.utils.InsetsUtils;
+import com.viafourasdk.src.utils.VFInsetsUtils;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -95,6 +97,9 @@ public class ArticleActivity extends AppCompatActivity implements VFCustomUIInte
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
+
+        InsetsUtils.applyActionBarInsets(this);
+        VFInsetsUtils.applyBottomInsetsToScrollable(findViewById(R.id.article_scroll));
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 

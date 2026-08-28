@@ -27,6 +27,7 @@ import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFNewCommentAction;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
+import com.viafourasample.src.utils.InsetsUtils;
 
 import java.util.UUID;
 
@@ -36,6 +37,8 @@ public class NewCommentActivity extends AppCompatActivity implements VFActionsIn
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_comment);
+
+        InsetsUtils.applyActionBarInsets(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

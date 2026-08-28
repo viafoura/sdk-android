@@ -31,6 +31,7 @@ import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFNewQuestionAction;
 import com.viafourasdk.src.model.local.VFSettings;
+import com.viafourasample.src.utils.InsetsUtils;
 
 public class LiveQuestionsActivity extends AppCompatActivity implements VFActionsInterface, VFLayoutInterface {
 
@@ -43,8 +44,11 @@ public class LiveQuestionsActivity extends AppCompatActivity implements VFAction
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_questions);
 
+        InsetsUtils.applyActionBarInsets(this);
+
         title = getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE);
         containerId = getIntent().getStringExtra(IntentKeys.INTENT_CONTAINER_ID);
+        focusedContentUUID = getIntent().getStringExtra(IntentKeys.INTENT_FOCUS_CONTENT_UUID);
         if (title != null) setTitle(title);
 
         loadFragment(containerId);

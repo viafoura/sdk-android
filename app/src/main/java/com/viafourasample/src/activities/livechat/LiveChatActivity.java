@@ -24,6 +24,7 @@ import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
+import com.viafourasample.src.utils.InsetsUtils;
 
 public class LiveChatActivity extends AppCompatActivity implements VFActionsInterface {
 
@@ -31,6 +32,8 @@ public class LiveChatActivity extends AppCompatActivity implements VFActionsInte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_chat);
+
+        InsetsUtils.applyActionBarInsets(this);
 
         setTitle(getIntent().getStringExtra(IntentKeys.INTENT_STORY_TITLE));
 

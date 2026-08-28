@@ -29,6 +29,8 @@ import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFCustomViewType;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
+import com.viafourasample.src.utils.InsetsUtils;
+import com.viafourasdk.src.utils.VFInsetsUtils;
 
 public class CommentsContainerActivity extends AppCompatActivity implements VFActionsInterface, VFCustomUIInterface {
     private VFSettings vfSettings;
@@ -40,6 +42,9 @@ public class CommentsContainerActivity extends AppCompatActivity implements VFAc
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments_container);
+
+        InsetsUtils.applyActionBarInsets(this);
+        VFInsetsUtils.applyBottomInsetsToScrollable(findViewById(R.id.comments_container_scroll));
 
         VFColors colors = new VFColors(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryLight));
         vfSettings = new VFSettings(colors);

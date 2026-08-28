@@ -22,6 +22,8 @@ import com.viafoura.sampleapp.R;
 import com.viafourasample.src.managers.ColorManager;
 import com.viafourasample.src.model.SettingKeys;
 import com.viafourasdk.src.model.local.VFDefaultColors;
+import com.viafourasample.src.utils.InsetsUtils;
+import com.viafourasdk.src.utils.VFInsetsUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -36,6 +38,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        InsetsUtils.applyActionBarInsets(this);
+        VFInsetsUtils.applyBottomInsetsWithIme(findViewById(R.id.signup_holder));
 
         if(ColorManager.isDarkMode(getApplicationContext())){
             findViewById(R.id.signup_holder).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBackgroundArticle));

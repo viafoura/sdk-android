@@ -27,6 +27,7 @@ import com.viafourasdk.src.model.local.VFArticleMetadata;
 import com.viafourasdk.src.model.local.VFColors;
 import com.viafourasdk.src.model.local.VFSettings;
 import com.viafourasdk.src.model.local.VFTheme;
+import com.viafourasample.src.utils.InsetsUtils;
 
 public class LiveChatVideoActivity extends AppCompatActivity implements VFActionsInterface {
 
@@ -35,6 +36,8 @@ public class LiveChatVideoActivity extends AppCompatActivity implements VFAction
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_live_chat_video);
+
+        InsetsUtils.enableEdgeToEdge(this);
 
         getSupportActionBar().hide();
 
