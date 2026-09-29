@@ -13,41 +13,85 @@
         android:descendantFocusability="blocksDescendants"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="200dp"
+            android:id="@+id/article_image"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
 
-            <ProgressBar
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp">
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="150dp"
-                android:id="@+id/article_loading"
                 android:layout_height="wrap_content"
-                android:indeterminate="true">
+                android:id="@+id/article_category"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-            </ProgressBar>
-
-            <WebView
+            <TextView
                 android:layout_width="match_parent"
-                android:id="@+id/article_webview"
-                android:scrollbars="none"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/article_title"
+                android:layout_marginTop="8dp"
+                android:textSize="26sp"
+                android:textStyle="bold" />
 
-            </WebView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/article_description"
+                android:layout_marginTop="8dp"
+                android:textSize="18sp" />
 
-        </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/article_author"
+                android:layout_marginTop="12dp"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/article_body_top"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/article_conversation_starter_container"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/article_body_bottom"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:id="@+id/article_trending_container"
-            android:layout_height="wrap_content">
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_marginTop="24dp"
             android:id="@+id/article_comments_container"
             android:layout_height="wrap_content">
 

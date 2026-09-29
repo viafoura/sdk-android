@@ -8,6 +8,7 @@ class SettingsViewModel {
         Setting("Use comments container on fullscreen", SettingKeys.commentsContainerFullscreen),
         Setting("Dark mode", SettingKeys.darkMode),
         Setting("Custom container IDs", SettingKeys.customContainerIDs),
-        Setting("Show notification bell on top bar", SettingKeys.showNotificationBellTopBar)
+        Setting("Show notification bell on top bar", SettingKeys.showNotificationBellTopBar),
+        Setting("Use new profile tray (testing)", SettingKeys.useProfileTray)
     )
 }

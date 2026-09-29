@@ -53,6 +53,16 @@ class StoryManager {
             "https://viafoura-mobile-demo.vercel.app",
             "test-livechat",
             Story.StoryType.liveChat
+        ),
+        Story(
+            "",
+            "Who is the best player ever?",
+            "Vote in our community poll",
+            "Sports Desk",
+            "POLL",
+            "https://viafoura-mobile-demo.vercel.app",
+            "9BC06A89-2B04-402F-8379-D4E21A249B3C",
+            Story.StoryType.poll
         )
     )
 

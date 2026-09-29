@@ -11,7 +11,7 @@ class Story(
     var storyType: StoryType
 ) {
     enum class StoryType {
-        comments, reviews, liveQuestions, liveChat
+        comments, reviews, liveQuestions, liveChat, poll
     }
 
     companion object {
