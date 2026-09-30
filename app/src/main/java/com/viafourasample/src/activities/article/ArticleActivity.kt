@@ -5,20 +5,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.JavascriptInterface
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -37,10 +31,13 @@ import com.viafourasample.src.activities.login.LoginActivity
 import com.viafourasample.src.activities.newcomment.NewCommentActivity
 import com.viafourasample.src.activities.profile.ProfileActivity
 import com.viafourasample.src.managers.ColorManager
+import com.viafourasample.src.model.ArticleBlock
 import com.viafourasample.src.model.IntentKeys
 import com.viafourasample.src.model.SettingKeys
 import com.viafourasample.src.utils.InsetsUtils
 import com.viafourasdk.src.fragments.base.VFFragment
+import com.viafourasdk.src.fragments.conversationstarter.VFConversationStarterFragment
+import com.viafourasdk.src.fragments.conversationstarter.VFConversationStarterFragmentBuilder
 import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragment
 import com.viafourasdk.src.fragments.previewcomments.VFPreviewCommentsFragmentBuilder
 import com.viafourasdk.src.interfaces.VFActionsInterface
@@ -68,14 +65,11 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
     private lateinit var vfSettings: VFSettings
     private lateinit var preferences: SharedPreferences
 
-    fun interface WebViewDelegate {
-        fun triggerEngagementStarter()
-    }
-
-    inner class WebViewInterface(private val webViewDelegate: WebViewDelegate) {
-        @JavascriptInterface
-        fun triggerEngagementStarter() {
-            webViewDelegate.triggerEngagementStarter()
+    private val conversationStarterActionCallback = VFActionsInterface { actionType, action ->
+        if (actionType == VFActionType.seeMoreCommentsPressed) {
+            scrollToComments()
+        } else {
+            onNewAction(actionType, action)
         }
     }
 
@@ -100,11 +94,6 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.title = articleViewModel.story.title
 
-        findViewById<ProgressBar>(R.id.article_loading).indeterminateDrawable.setColorFilter(
-            resources.getColor(R.color.colorPrimary),
-            PorterDuff.Mode.SRC_IN
-        )
-
         scrollView = findViewById(R.id.article_scroll)
 
         if (ColorManager.isDarkMode(applicationContext)) {
@@ -113,54 +102,106 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
             )
         }
 
-        val webView = findViewById<WebView>(R.id.article_webview)
-        webView.settings.javaScriptEnabled = true
-        webView.settings.domStorageEnabled = true
-        val webViewInterface = WebViewInterface(WebViewDelegate {
-            val yPosition = findViewById<View>(R.id.article_comments_container).y
-            scrollView.smoothScrollTo(0, yPosition.toInt())
-        })
+        setupArticleContent()
+        addConversationStarterFragment()
 
-        webView.addJavascriptInterface(webViewInterface, "NativeAndroid")
-        webView.loadUrl(articleViewModel.story.link)
-        webView.webViewClient = object : WebViewClient() {
-
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                request: WebResourceRequest
-            ): Boolean = request.url.toString() != articleViewModel.story.link
-
-            override fun onReceivedError(
-                view: WebView,
-                request: WebResourceRequest,
-                error: WebResourceError
-            ) {
-            }
-
-            override fun onPageFinished(view: WebView, url: String) {
-                if (ColorManager.isDarkMode(applicationContext)) {
-                    view.evaluateJavascript("document.documentElement.classList.add('dark');", null)
-                }
-
-                view.evaluateJavascript(
-                    "setTimeout(function() { document.querySelector('.vf-conversation-starter_link').onclick = function() {  NativeAndroid.triggerEngagementStarter(); }; document.querySelector('.vf-editors-pick_container-actions').onclick = function() {  NativeAndroid.triggerEngagementStarter(); }; }, 5000);",
-                    null
-                )
-
-                findViewById<View>(R.id.article_loading).visibility = View.GONE
-                if (preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
-                    findViewById<View>(R.id.article_comments_fullscreen).visibility = View.VISIBLE
-                } else {
-                    addCommentsFragment()
-                }
-            }
+        if (preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
+            findViewById<View>(R.id.article_comments_fullscreen).visibility = View.VISIBLE
+        } else {
+            addCommentsFragment()
         }
 
         findViewById<View>(R.id.article_comments_fullscreen).setOnClickListener {
-            val intent = Intent(applicationContext, CommentsContainerActivity::class.java)
-            intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, articleViewModel.story.containerId)
-            startActivity(intent)
+            openCommentsContainer()
         }
+    }
+
+    private fun setupArticleContent() {
+        val story = articleViewModel.story
+        val isDarkMode = ColorManager.isDarkMode(applicationContext)
+        val primaryTextColor = if (isDarkMode) Color.WHITE else Color.BLACK
+        val secondaryTextColor = if (isDarkMode) Color.LTGRAY else Color.DKGRAY
+
+        Glide.with(this)
+            .load(story.pictureUrl)
+            .into(findViewById<ImageView>(R.id.article_image))
+
+        findViewById<TextView>(R.id.article_category).text = story.category
+        findViewById<TextView>(R.id.article_title).apply {
+            text = story.title
+            setTextColor(primaryTextColor)
+        }
+        findViewById<TextView>(R.id.article_description).apply {
+            text = story.description
+            setTextColor(secondaryTextColor)
+        }
+        findViewById<TextView>(R.id.article_author).apply {
+            text = getString(R.string.article_author, story.author)
+            setTextColor(secondaryTextColor)
+        }
+
+        val blocks = story.blocks
+        val splitIndex = blocks.size / 2
+        addArticleBlocks(findViewById(R.id.article_body_top), blocks.subList(0, splitIndex), primaryTextColor)
+        addArticleBlocks(findViewById(R.id.article_body_bottom), blocks.subList(splitIndex, blocks.size), primaryTextColor)
+    }
+
+    private fun addArticleBlocks(container: LinearLayout, blocks: List<ArticleBlock>, textColor: Int) {
+        val spacing = (16 * resources.displayMetrics.density).toInt()
+        blocks.forEach { block ->
+            val textView = TextView(this)
+            textView.setTextColor(textColor)
+            when (block) {
+                is ArticleBlock.Heading -> {
+                    textView.text = block.text
+                    textView.textSize = 22f
+                    textView.setTypeface(null, android.graphics.Typeface.BOLD)
+                }
+
+                is ArticleBlock.Paragraph -> {
+                    textView.text = block.text
+                    textView.textSize = 17f
+                    textView.setLineSpacing(0f, 1.25f)
+                }
+            }
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.bottomMargin = spacing
+            container.addView(textView, params)
+        }
+    }
+
+    private fun articleMetadata(): VFArticleMetadata {
+        val story = articleViewModel.story
+        return VFArticleMetadata(story.link, story.title, story.description, story.pictureUrl)
+    }
+
+    private fun addConversationStarterFragment() {
+        if (supportFragmentManager.findFragmentByTag(TAG_CONVERSATION_STARTER_FRAGMENT) != null) {
+            return
+        }
+
+        val conversationStarterFragment = VFConversationStarterFragmentBuilder(
+            articleViewModel.story.containerId,
+            articleMetadata(),
+            vfSettings
+        ).build()
+        conversationStarterFragment.setTheme(
+            if (ColorManager.isDarkMode(applicationContext)) VFTheme.dark else VFTheme.light
+        )
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.article_conversation_starter_container,
+                conversationStarterFragment,
+                TAG_CONVERSATION_STARTER_FRAGMENT
+            )
+            .commitAllowingStateLoss()
+
+        conversationStarterFragment.setLayoutCallback(this)
+        conversationStarterFragment.setActionCallback(conversationStarterActionCallback)
+        conversationStarterFragment.setCustomUICallback(this)
     }
 
     private fun addCommentsFragment() {
@@ -169,10 +210,8 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
         }
 
         val story = articleViewModel.story
-        val articleMetadata =
-            VFArticleMetadata(story.link, story.title, story.description, story.pictureUrl)
         val previewCommentsFragment =
-            VFPreviewCommentsFragmentBuilder(story.containerId, articleMetadata, vfSettings)
+            VFPreviewCommentsFragmentBuilder(story.containerId, articleMetadata(), vfSettings)
                 .paginationSize(10)
                 .sortType(VFSortType.newest)
                 .build()
@@ -193,6 +232,22 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
         previewCommentsFragment.setAdInterface(this)
         previewCommentsFragment.setCustomUICallback(this)
         previewCommentsFragment.setAuthorIds(listOf("3147700024522"))
+    }
+
+    private fun openCommentsContainer() {
+        val intent = Intent(applicationContext, CommentsContainerActivity::class.java)
+        intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, articleViewModel.story.containerId)
+        startActivity(intent)
+    }
+
+    private fun scrollToComments() {
+        if (preferences.getBoolean(SettingKeys.commentsContainerFullscreen, false)) {
+            openCommentsContainer()
+            return
+        }
+
+        val yPosition = findViewById<View>(R.id.article_comments_container).y
+        scrollView.smoothScrollTo(0, yPosition.toInt())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -261,6 +316,7 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
     override fun customizeView(theme: VFTheme, customViewType: VFCustomViewType, view: View) {
         when (customViewType) {
             VFCustomViewType.previewBackgroundView,
+            VFCustomViewType.conversationStarterBackgroundView,
             VFCustomViewType.trendingVerticalBackground,
             VFCustomViewType.trendingCarouselBackground -> {
                 if (theme == VFTheme.dark) {
@@ -326,6 +382,14 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
             it.setAdInterface(this)
             it.setCustomUICallback(this)
         }
+
+        val conversationStarterFragment =
+            supportFragmentManager.findFragmentByTag(TAG_CONVERSATION_STARTER_FRAGMENT) as? VFConversationStarterFragment
+        conversationStarterFragment?.let {
+            it.setLayoutCallback(this)
+            it.setActionCallback(conversationStarterActionCallback)
+            it.setCustomUICallback(this)
+        }
     }
 
     override fun scrollToPosition(position: Int) {
@@ -338,5 +402,6 @@ class ArticleActivity : AppCompatActivity(), VFCustomUIInterface, VFActionsInter
 
     companion object {
         const val TAG_COMMENTS_FRAGMENT = "COMMENTS_FRAGMENT"
+        const val TAG_CONVERSATION_STARTER_FRAGMENT = "CONVERSATION_STARTER_FRAGMENT"
     }
 }

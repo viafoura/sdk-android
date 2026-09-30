@@ -15,6 +15,7 @@ import com.viafoura.sampleapp.R
 import com.viafourasample.src.activities.article.ArticleActivity
 import com.viafourasample.src.activities.livechat.LiveChatActivity
 import com.viafourasample.src.activities.livequestions.LiveQuestionsActivity
+import com.viafourasample.src.activities.poll.PollActivity
 import com.viafourasample.src.managers.StoryManager
 import com.viafourasample.src.model.IntentKeys
 import com.viafourasample.src.model.Story
@@ -39,6 +40,7 @@ class HomeFragment : Fragment() {
         val intent = when (story.storyType) {
             Story.StoryType.liveQuestions -> Intent(requireContext(), LiveQuestionsActivity::class.java)
             Story.StoryType.liveChat -> Intent(requireContext(), LiveChatActivity::class.java)
+            Story.StoryType.poll -> Intent(requireContext(), PollActivity::class.java)
             else -> Intent(requireContext(), ArticleActivity::class.java)
         }
         intent.putExtra(IntentKeys.INTENT_CONTAINER_ID, story.containerId)
@@ -65,15 +67,15 @@ class HomeFragment : Fragment() {
         }
 
         override fun getItemViewType(position: Int): Int =
-            if (stories[position].storyType == Story.StoryType.liveQuestions) {
-                VIEW_TYPE_LIVE_QUESTIONS
-            } else {
-                VIEW_TYPE_ARTICLE
+            when (stories[position].storyType) {
+                Story.StoryType.liveQuestions -> VIEW_TYPE_LIVE_QUESTIONS
+                Story.StoryType.poll -> VIEW_TYPE_POLL
+                else -> VIEW_TYPE_ARTICLE
             }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            if (viewType == VIEW_TYPE_LIVE_QUESTIONS) {
+            if (viewType == VIEW_TYPE_LIVE_QUESTIONS || viewType == VIEW_TYPE_POLL) {
                 return LiveQuestionsViewHolder(
                     inflater.inflate(R.layout.row_livechat, parent, false)
                 )
@@ -85,7 +87,9 @@ class HomeFragment : Fragment() {
             val story = stories[position]
             if (holder is LiveQuestionsViewHolder) {
                 holder.title.text = story.title
-                holder.image.setImageResource(R.drawable.icon_question)
+                holder.image.setImageResource(
+                    if (story.storyType == Story.StoryType.poll) R.drawable.icon_poll else R.drawable.icon_question
+                )
                 holder.image.visibility = View.VISIBLE
                 holder.holder.setOnClickListener { onArticleClicked(story) }
                 return
@@ -108,5 +112,6 @@ class HomeFragment : Fragment() {
     companion object {
         private const val VIEW_TYPE_ARTICLE = 0
         private const val VIEW_TYPE_LIVE_QUESTIONS = 1
+        private const val VIEW_TYPE_POLL = 2
     }
 }

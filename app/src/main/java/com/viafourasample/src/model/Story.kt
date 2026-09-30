@@ -8,10 +8,11 @@ class Story(
     val category: String,
     val link: String,
     val containerId: String,
-    var storyType: StoryType
+    var storyType: StoryType,
+    val blocks: List<ArticleBlock> = emptyList()
 ) {
     enum class StoryType {
-        comments, reviews, liveQuestions, liveChat
+        comments, reviews, liveQuestions, liveChat, poll
     }
 
     companion object {
@@ -23,7 +24,8 @@ class Story(
             "ECONOMY",
             "https://viafoura-mobile-demo.vercel.app/posts/here-are-what-media-companies-are-doing-with-covid-19-overload",
             containerId,
-            StoryType.comments
+            StoryType.comments,
+            ArticleBodies.covidNewsroom
         )
     }
 }
