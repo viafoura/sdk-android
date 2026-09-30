@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.viafourasample.src.activities.livequestions.LiveQuestionsActivity
 import com.viafourasample.src.activities.login.LoginActivity
 import com.viafourasample.src.managers.ColorManager
 import com.viafourasample.src.model.IntentKeys
+import com.viafourasample.src.model.SettingKeys
 import com.viafourasample.src.utils.InsetsUtils
 import com.viafourasdk.src.fragments.profile.VFProfileFragmentBuilder
 import com.viafourasdk.src.interfaces.VFActionsInterface
@@ -24,6 +26,7 @@ import com.viafourasdk.src.model.local.VFColors
 import com.viafourasdk.src.model.local.VFCustomViewType
 import com.viafourasdk.src.model.local.VFNotificationPresentationAction
 import com.viafourasdk.src.model.local.VFProfilePresentationType
+import com.viafourasdk.src.model.local.VFProfileStyle
 import com.viafourasdk.src.model.local.VFSettings
 import com.viafourasdk.src.model.local.VFTheme
 import com.viafourasdk.src.view.VFUserAvatarView
@@ -59,11 +62,13 @@ class ProfileActivity : AppCompatActivity(), VFActionsInterface, VFCustomUIInter
                 presentationType = VFProfilePresentationType.feed
             }
         }
+        val useProfileTray = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            .getBoolean(SettingKeys.useProfileTray, false)
         val profileFragment = VFProfileFragmentBuilder(
             UUID.fromString(intent.getStringExtra(IntentKeys.INTENT_USER_UUID)),
             presentationType,
             vfSettings
-        ).build()
+        ).style(if (useProfileTray) VFProfileStyle.drawer else VFProfileStyle.standard).build()
         profileFragment.setActionCallback(this)
         profileFragment.setCustomUICallback(this)
         profileFragment.setTheme(
