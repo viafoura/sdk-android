@@ -1,5 +1,6 @@
 package com.viafourasample.src.managers
 
+import com.viafourasample.src.model.ArticleBodies
 import com.viafourasample.src.model.Story
 
 class StoryManager {
@@ -22,7 +23,8 @@ class StoryManager {
             "ECONOMY",
             "https://viafoura-mobile-demo.vercel.app/posts/here-are-what-media-companies-are-doing-with-covid-19-overload",
             "72c86bde-e162-11ee-b6d0-e3e7190ad965",
-            Story.StoryType.comments
+            Story.StoryType.comments,
+            ArticleBodies.covidNewsroom
         ),
         Story(
             "https://www.datocms-assets.com/55856/1636663477-blognewheights.jpg?fit=crop&fm=webp&h=428&w=856",
@@ -32,7 +34,8 @@ class StoryManager {
             "ECONOMY",
             "https://viafoura-mobile-demo.vercel.app/posts/dont-shut-out-your-community-guide-them-to-civility",
             "101113531",
-            Story.StoryType.comments
+            Story.StoryType.comments,
+            ArticleBodies.growCivility
         ),
         Story(
             "https://www.datocms-assets.com/67251/1701970811-tacos.jpg?fit=crop&fm=webp&h=428&w=856",
@@ -42,7 +45,8 @@ class StoryManager {
             "RECIPE",
             "https://viafoura-mobile-demo.vercel.app/posts/brexit-to-cost-gbp1-200-for-each-person-in-uk",
             "1231293123",
-            Story.StoryType.reviews
+            Story.StoryType.reviews,
+            ArticleBodies.bulgogiTacos
         ),
         Story(
             "https://www.datocms-assets.com/55856/1636663477-blognewheights.jpg?fit=crop&fm=webp&h=428&w=856",
