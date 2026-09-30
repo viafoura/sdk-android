@@ -5,7 +5,6 @@ object SettingKeys {
     const val darkMode = "darkMode"
     const val customContainerIDs = "customContainerIDs"
     const val showNotificationBellTopBar = "showNotificationBellTopBar"
-    const val useProfileTray = "useProfileTray"
     const val siteUUID = "siteUUID"
     const val siteDomain = "siteDomain"
 
