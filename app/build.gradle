@@ -48,6 +48,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:21.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    implementation 'com.viafoura:android:2.1.16'
+    implementation 'com.viafoura:android:2.1.17'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 }
