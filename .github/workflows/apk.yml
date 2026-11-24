@@ -168,6 +168,10 @@ jobs:
           APK: ${{ steps.apk.outputs.path }}
           NOTES: ${{ steps.apk.outputs.notes }}
         run: |
+          # A pasted token or ID often carries a trailing newline or quotes, which Google rejects.
+          FIREBASE_TOKEN=$(printf '%s' "$FIREBASE_TOKEN" | tr -d "[:space:]\"'")
+          FIREBASE_APP_ID=$(printf '%s' "$FIREBASE_APP_ID" | tr -d "[:space:]\"'")
+          export FIREBASE_TOKEN
           missing=()
           [ -n "$FIREBASE_APP_ID" ] || missing+=("FIREBASE_APP_ID (variable or secret)")
           [ -n "$FIREBASE_TOKEN" ] || missing+=("FIREBASE_TOKEN (secret, from firebase login:ci)")
@@ -178,5 +182,8 @@ jobs:
           args=(--app "$FIREBASE_APP_ID" --release-notes-file "$NOTES")
           [ -n "$TESTER_GROUPS" ] && args+=(--groups "$TESTER_GROUPS")
           # firebase-tools is pinned because it plans to drop FIREBASE_TOKEN in a future major version.
-          npx --yes firebase-tools@15.34.2 appdistribution:distribute "$APK" "${args[@]}"
+          if ! npx --yes firebase-tools@15.34.2 appdistribution:distribute "$APK" "${args[@]}"; then
+            echo "::error::Upload failed. A 401 here means Google rejected FIREBASE_TOKEN (revoked by 'firebase logout', expired, or pasted with extra text): run 'firebase login:ci' again and save only the token."
+            exit 1
+          fi
           echo "Distributed to Firebase App Distribution${TESTER_GROUPS:+ (groups: $TESTER_GROUPS)}" >> "$GITHUB_STEP_SUMMARY"
