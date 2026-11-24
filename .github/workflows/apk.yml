@@ -163,23 +163,17 @@ jobs:
         if: inputs.distribute
         env:
           FIREBASE_APP_ID: ${{ vars.FIREBASE_APP_ID }}
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           TESTER_GROUPS: ${{ inputs.groups || vars.FIREBASE_TESTER_GROUPS }}
           APK: ${{ steps.apk.outputs.path }}
           NOTES: ${{ steps.apk.outputs.notes }}
         run: |
-          if [ -z "$FIREBASE_APP_ID" ] || [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then
-            echo "::error::Set the FIREBASE_APP_ID variable and FIREBASE_SERVICE_ACCOUNT secret, or run with distribute unticked."
+          if [ -z "$FIREBASE_APP_ID" ] || [ -z "$FIREBASE_TOKEN" ]; then
+            echo "::error::Set the FIREBASE_APP_ID variable and FIREBASE_TOKEN secret (firebase login:ci), or run with distribute unticked."
             exit 1
           fi
-          credentials="$RUNNER_TEMP/firebase-sa.json"
-          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$credentials"
           args=(--app "$FIREBASE_APP_ID" --release-notes-file "$NOTES")
           [ -n "$TESTER_GROUPS" ] && args+=(--groups "$TESTER_GROUPS")
-          GOOGLE_APPLICATION_CREDENTIALS="$credentials" \
-            npx --yes firebase-tools@15.34.2 appdistribution:distribute "$APK" "${args[@]}"
+          # firebase-tools is pinned because it plans to drop FIREBASE_TOKEN in a future major version.
+          npx --yes firebase-tools@15.34.2 appdistribution:distribute "$APK" "${args[@]}"
           echo "Distributed to Firebase App Distribution${TESTER_GROUPS:+ (groups: $TESTER_GROUPS)}" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Remove Firebase credentials
-        if: always()
-        run: rm -f "$RUNNER_TEMP/firebase-sa.json"
