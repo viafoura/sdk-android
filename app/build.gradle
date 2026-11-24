@@ -10,14 +10,16 @@ android {
         applicationId "com.viafoura.sampleapp"
         minSdk = 24
         targetSdk = 36
-        versionCode = 26
-        versionName = "1.0.26"
+        versionCode = (findProperty('sampleVersionCode') ?: 26) as int
+        versionName = findProperty('sampleVersionName') ?: "1.0.26"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            // Sample builds aren't distributed through a store; the debug key keeps the APK installable.
+            signingConfig = signingConfigs.debug
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
