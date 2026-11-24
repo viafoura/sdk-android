@@ -162,14 +162,17 @@ jobs:
       - name: Distribute with Firebase App Distribution
         if: inputs.distribute
         env:
-          FIREBASE_APP_ID: ${{ vars.FIREBASE_APP_ID }}
+          FIREBASE_APP_ID: ${{ vars.FIREBASE_APP_ID || secrets.FIREBASE_APP_ID }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           TESTER_GROUPS: ${{ inputs.groups || vars.FIREBASE_TESTER_GROUPS }}
           APK: ${{ steps.apk.outputs.path }}
           NOTES: ${{ steps.apk.outputs.notes }}
         run: |
-          if [ -z "$FIREBASE_APP_ID" ] || [ -z "$FIREBASE_TOKEN" ]; then
-            echo "::error::Set the FIREBASE_APP_ID variable and FIREBASE_TOKEN secret (firebase login:ci), or run with distribute unticked."
+          missing=()
+          [ -n "$FIREBASE_APP_ID" ] || missing+=("FIREBASE_APP_ID (variable or secret)")
+          [ -n "$FIREBASE_TOKEN" ] || missing+=("FIREBASE_TOKEN (secret, from firebase login:ci)")
+          if [ ${#missing[@]} -gt 0 ]; then
+            for name in "${missing[@]}"; do echo "::error::Missing $name, or run with distribute unticked."; done
             exit 1
           fi
           args=(--app "$FIREBASE_APP_ID" --release-notes-file "$NOTES")
