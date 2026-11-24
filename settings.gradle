@@ -7,3 +7,14 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ViafouraSDK"
 include ':app'
+
+// Build the sample app against a local sdk-android-core checkout instead of the
+// released com.viafoura:android, e.g. ./gradlew assembleDebug -PviafouraCorePath=../sdk-android-core
+def viafouraCorePath = providers.gradleProperty('viafouraCorePath').orNull
+if (viafouraCorePath) {
+    includeBuild(viafouraCorePath) {
+        dependencySubstitution {
+            substitute module('com.viafoura:android') using project(':module')
+        }
+    }
+}

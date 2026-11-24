@@ -1,0 +1,157 @@
+name: Build sample app APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: "versionName (default: 1.0.<version code>)"
+        required: false
+      version_code:
+        description: "versionCode (default: the app's versionCode + this workflow's run number)"
+        required: false
+      build_type:
+        description: "Build type"
+        type: choice
+        options: [release, debug]
+        default: release
+      latest_core:
+        description: "Build against sdk-android-core instead of the released com.viafoura:android"
+        type: boolean
+        default: false
+      core_ref:
+        description: "sdk-android-core branch, tag or commit when building against it"
+        required: false
+        default: develop
+
+concurrency:
+  group: apk-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  apk:
+    name: Assemble APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+
+      - name: Checkout sdk-android-core
+        if: inputs.latest_core
+        uses: actions/checkout@v4
+        with:
+          repository: viafoura/sdk-android-core
+          ref: ${{ inputs.core_ref }}
+          ssh-key: ${{ secrets.SDK_ANDROID_CORE_DEPLOY_KEY }}
+          path: sdk-android-core
+
+      - name: Resolve version
+        id: version
+        env:
+          INPUT_VERSION_NAME: ${{ inputs.version_name }}
+          INPUT_VERSION_CODE: ${{ inputs.version_code }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          base=$(sed -nE "s/.*\?: ([0-9]+)\) as int.*/\1/p" app/build.gradle | head -1)
+          code="${INPUT_VERSION_CODE:-$(( base + RUN_NUMBER ))}"
+          name="${INPUT_VERSION_NAME:-1.0.$code}"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      - name: Write upload keystore
+        if: inputs.build_type == 'release'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload.jks"
+            echo "KEYSTORE_PATH=$RUNNER_TEMP/upload.jks" >> "$GITHUB_ENV"
+          else
+            echo "::notice::ANDROID_KEYSTORE_BASE64 is not set; the release APK is signed with the debug key."
+          fi
+
+      - name: Assemble
+        env:
+          BUILD_TYPE: ${{ inputs.build_type }}
+          VERSION_CODE: ${{ steps.version.outputs.code }}
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          LATEST_CORE: ${{ inputs.latest_core }}
+          ORG_GRADLE_PROJECT_sampleStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ORG_GRADLE_PROJECT_sampleKeyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ORG_GRADLE_PROJECT_sampleKeyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          task="assemble${BUILD_TYPE^}"
+          args=(-PsampleVersionCode="$VERSION_CODE" -PsampleVersionName="$VERSION_NAME")
+          [ -n "$KEYSTORE_PATH" ] && args+=(-PsampleStoreFile="$KEYSTORE_PATH")
+          if [ "$LATEST_CORE" = "true" ]; then
+            echo "/sdk-android-core/" >> .git/info/exclude
+            args+=(-PviafouraCorePath=sdk-android-core)
+          fi
+          ./gradlew ":app:$task" "${args[@]}" --no-daemon --stacktrace
+
+      - name: Collect APK
+        id: apk
+        env:
+          BUILD_TYPE: ${{ inputs.build_type }}
+          VERSION_CODE: ${{ steps.version.outputs.code }}
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          LATEST_CORE: ${{ inputs.latest_core }}
+          CORE_REF: ${{ inputs.core_ref }}
+        run: |
+          apk=$(find "app/build/outputs/apk/$BUILD_TYPE" -name '*.apk' | head -1)
+          [ -n "$apk" ] || { echo "::error::No APK was produced"; exit 1; }
+
+          sdk=$(sed -nE "s/.*com\.viafoura:android:([^'\"]+).*/\1/p" app/build.gradle | head -1)
+          label="com.viafoura:android $sdk"
+          suffix=""
+          if [ "$LATEST_CORE" = "true" ]; then
+            core_sha=$(git -C sdk-android-core rev-parse --short HEAD)
+            label="sdk-android-core $CORE_REF @ $core_sha"
+            suffix="-core-$core_sha"
+          fi
+
+          name="ViafouraSample-$VERSION_NAME-$VERSION_CODE-$BUILD_TYPE$suffix"
+          mkdir -p "$RUNNER_TEMP/out"
+          cp "$apk" "$RUNNER_TEMP/out/$name.apk"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "path=$RUNNER_TEMP/out/$name.apk" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "### $name.apk"
+            echo
+            echo "- Version: \`$VERSION_NAME ($VERSION_CODE)\`, $BUILD_TYPE"
+            echo "- SDK: $label"
+            echo "- Sample app: \`$(git rev-parse --short HEAD)\` on \`${GITHUB_REF_NAME}\`"
+            echo
+            echo "Recent changes:"
+            git log -10 --no-merges --format='- %s'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.apk.outputs.name }}
+          path: ${{ steps.apk.outputs.path }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Remove keystore
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.jks"
